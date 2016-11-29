@@ -6,14 +6,10 @@ using System.Web.Mvc;
 
 namespace JobManager.Controllers
 {
-    public class HomeController : Controller
+    public class JobsController : Controller
     {
+        // GET: Jobs
         public ActionResult Index()
-        {
-            return View();
-        }
-
-        public ActionResult Summary()
         {
             return View();
         }
