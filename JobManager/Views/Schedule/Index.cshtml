@@ -17,7 +17,7 @@
 <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" />
 
 <div class="jumbotron">
-    <h2>Job Summary</h2>
+    <h5>Job Summary</h5>
 </div>
 
 
@@ -27,14 +27,15 @@
     columns.Add(JobSummary => JobSummary.ServerName)
     .Titled("Server Name")
     .Sortable(true)
-    .Filterable(true);
+    .Filterable(false);
     columns.Add(Jobsummary => Jobsummary.JobName)
     .Titled("Job Name")
     .Sortable(true)
+    .SortInitialDirection(GridSortDirection.Ascending)
     .Filterable(false);
     columns.Add(Jobsummary => Jobsummary.Enabled)
     .Titled("Enabled")
-    .Filterable(true);
+    .Filterable(false);
     columns.Add(Jobsummary => Jobsummary.Status)
     .Titled("Status")
     .Sortable(true)
@@ -42,7 +43,7 @@
     columns.Add(Jobsummary => Jobsummary.LastOutcome)
     .Titled("Last Outcome")
     .Sortable(true)
-    .Filterable(true);
+    .Filterable(false);
     columns.Add(Jobsummary => Jobsummary.LastRun)
     .Titled("Last Run")
     .Sortable(true)
