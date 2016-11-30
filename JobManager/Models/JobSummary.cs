@@ -8,6 +8,7 @@ namespace JobManager.Models
 { 
     public class JobSummary
     {
+        public Guid JobID { get; set; }
         public string ServerName { get; set; }
         public string JobName { get; set; }
         public bool Enabled { get; set; }
@@ -16,8 +17,10 @@ namespace JobManager.Models
         public DateTime LastRun { get; set; }
         public DateTime NextRun { get; set; }
         public string Category { get; set; }
-        public string Runable { get; set; }
+        public bool Runable { get; set; }
         public bool Scheduled { get; set; }
+        public string Description { get; set; }
+        public string Owner { get; set; }
 
     }
 }

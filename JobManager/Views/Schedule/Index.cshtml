@@ -3,113 +3,123 @@
     ViewBag.Title = "Job Summary";
 }
 
-@section LeftMenu{
-    @Html.Partial("_LeftMenu")    
-}
-
 @using GridMvc.Html;
 @using GridMvc.Sorting;
 @using JobManager.Models;
+
+@section LeftMenu{
+    @{Html.RenderAction("_LeftMenu", "Home");
+    }
+}
 
 @model List<JobSummary>
 
 <link href="@Url.Content("~/Content/Gridmvc.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" />
 
-<div class="jumbotron">
-    <h5>Job Summary</h5>
+<div>
+    <h3>Job Summary</h3>
 </div>
 
 
 <div class="code-cut">
     @Html.Grid(Model).Columns(columns =>
 {
+    columns.Add()
+    .Encoded(false)
+    .Sanitized(false)
+    .SetWidth(30)
+    .RenderValueAs(JobSummary => RenderStartButton(JobSummary));
     columns.Add(JobSummary => JobSummary.ServerName)
     .Titled("Server Name")
     .Sortable(true)
     .Filterable(false);
-    columns.Add(Jobsummary => Jobsummary.JobName)
+    columns.Add(JobSummary => JobSummary.JobName)
     .Titled("Job Name")
     .Sortable(true)
     .SortInitialDirection(GridSortDirection.Ascending)
     .Filterable(false);
-    columns.Add(Jobsummary => Jobsummary.Enabled)
+    columns.Add(JobSummary => JobSummary.Enabled)
     .Titled("Enabled")
-    .Filterable(false);
-    columns.Add(Jobsummary => Jobsummary.Status)
+    .Filterable(false)
+    .RenderValueAs(JobSummary => RenderEnabled(JobSummary));
+    columns.Add(JobSummary => JobSummary.Status)
     .Titled("Status")
     .Sortable(true)
     .Filterable(false);
-    columns.Add(Jobsummary => Jobsummary.LastOutcome)
+    columns.Add(JobSummary => JobSummary.LastOutcome)
     .Titled("Last Outcome")
     .Sortable(true)
     .Filterable(false);
-    columns.Add(Jobsummary => Jobsummary.LastRun)
+    columns.Add(JobSummary => JobSummary.LastRun)
     .Titled("Last Run")
     .Sortable(true)
     .Filterable(false);
-    columns.Add(Jobsummary => Jobsummary.NextRun)
+    columns.Add(JobSummary => JobSummary.NextRun)
     .Titled("Next Run")
     .Sortable(true)
     .Filterable(false);
-    columns.Add(Jobsummary => Jobsummary.Category)
+    columns.Add(JobSummary => JobSummary.Category)
     .Titled("Category")
     .Sortable(true)
     .Filterable(true);
-    columns.Add(Jobsummary => Jobsummary.Runable)
+    columns.Add(JobSummary => JobSummary.Runable)
     .Titled("Runable")
-    .Filterable(true);
-    columns.Add(Jobsummary => Jobsummary.Scheduled)
+    .Filterable(true)
+    .RenderValueAs(JobSummary => RenderRunable(JobSummary));
+    columns.Add(JobSummary => JobSummary.Scheduled)
     .Titled("Scheduled")
-    .Filterable(true);
+    .Filterable(true)
+    .RenderValueAs(JobSummary => RenderScheduled(JobSummary));
 }).WithPaging(25)
-    <div class="ajaxLoaderDiv hidden">
-        <p>
-            <label>Loading...</label>
-        </p>
-    </div>
 </div>
 
-<style>
-    .ajaxLoaderDiv {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        height: 6em;
-        padding-top: 2.3em;
-        /* The following rules are the
-     ones most likely to change */
-        width: 20em;
-        /* Set 'margin-left' to a negative number
-     that is 1/2 of 'width' */
-        margin-left: -10em;
-        padding-left: 2.1em;
-        background-color: black;
-        color: white;
-        -webkit-border-radius: 0.4em;
-        -moz-border-radius: 0.4em;
-        border-radius: 0.4em;
-        box-shadow: 0.4em 0.4em rgba(0,0,0,0.6);
-        -webkit-box-shadow: 0.4em 0.4em rgba(0,0,0,0.6);
-        -moz-box-shadow: 0.4em 0.4em rgba(0,0,0,0.6);
-    }
+@helper RenderEnabled (JobSummary jobs)
+    {
+if (jobs.Enabled)
+{
+        <text>Yes</text>
+}
+else
+{<text>No</text>}
+}
+}
 
-        .ajaxLoaderDiv i {
-            margin-right: 0.5em;
-        }
-</style>
+@helper RenderScheduled(JobSummary jobs)
+{
+if (jobs.Scheduled)
+{
+        <text>Yes</text>
+}
+else
+{<text>No</text>}
+}
+}
 
-<style>
-    .ajaxLoaderDiv-bg {
-        background-color: lightgray;
-        opacity: .5;
-    }
-</style>
+@helper RenderRunable(JobSummary jobs)
+{
+if (jobs.Runable)
+{
+        <text>Yes</text>
+}
+else
+{<text>No</text>}
+}
+}
 
-<script type="text/javascript">
-    function showPageLoadingMessage() {
-    $('#ajaxLoaderDiv').show();
-    $(".ajaxLoaderDiv").removeClass("hidden");
-    $("body").addClass("ajaxLoaderDiv-bg");
- }
-</script>
+@helper RenderStartButton(JobSummary jobs)
+{
+if (jobs.Runable && jobs.Status == "Idle")
+{
+    @Html.ActionLink("Start Job", "StartJob", "",
+        new
+        {
+            dbServer = jobs.ServerName,
+            jobID = jobs.JobID
+        },
+        new { @class = "btn btn-success" });
+}
+else
+{<text></text>}
+}
+}

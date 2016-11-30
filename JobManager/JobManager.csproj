@@ -159,6 +159,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ConnectSqlServer.cs" />
+    <Compile Include="Helpers\GetConfig.cs" />
+    <Compile Include="Helpers\JobList.cs" />
+    <Compile Include="Models\IServers.cs" />
     <Compile Include="Models\JobSummary.cs" />
     <Compile Include="Models\Servers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -206,7 +209,7 @@
     <Content Include="Views\Shared\_GridPager.cshtml" />
     <Content Include="Views\Shared\_Grid.cshtml" />
     <Content Include="Views\Home\Summary.cshtml" />
-    <Content Include="Views\Schedule\_LeftMenu.cshtml" />
+    <Content Include="Views\Home\_LeftMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

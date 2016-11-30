@@ -1,0 +1,17 @@
+﻿
+@model List<JobManager.Models.IServers>
+
+<h3>
+    Servers:
+</h3>
+
+<br />
+<div style="justify-content:center">
+    @foreach (JobManager.Models.IServers item in Model)
+    {
+        <p>
+            @Html.ActionLink(item.ServerName, "Index", "Schedule", new { dbServer = item.ServerName }, null)
+        </p>
+
+    }
+</div>

@@ -5,3 +5,65 @@
 
 <h2>Summary</h2>
 
+<table class="table">
+    <tr>
+        <td class="header">
+            Jobs Found:
+        </td>
+        <td class="value">
+            @ViewBag.jobsFound
+        </td>
+    </tr>
+    <tr>
+        <td class="header">
+            Jobs currenlty executing:
+        </td>
+        <td class="value">
+            @ViewBag.jobsRunning
+        </td>
+    </tr>
+    <tr>
+        <td class="header">
+            Jobs succeeded:
+        </td>
+        <td class="value">
+            @ViewBag.jobsSucceeded
+        </td>
+    </tr>
+    <tr>
+        <td class="header">
+            Jobs failed:
+        </td>
+        <td class="value">
+            @ViewBag.jobsFailed
+        </td>
+    </tr>
+    <tr>
+        <td class="header">
+            Jobs disabled:
+        </td>
+        <td class="value">
+            @ViewBag.jobsDisabled
+        </td>
+    </tr>
+</table>
+
+
+<style type="text/css">
+    .table{
+        border-color:black;
+        border-style:solid;
+        border-width:medium;
+    }
+    .header{
+        width:50%;
+        font-size: xx-large;
+        color: blue;
+        text-align:right;
+    }
+    .value{
+        width:50%;
+        font-size: xx-large;
+        color:darkgreen;       
+    }
+</style>
