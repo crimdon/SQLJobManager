@@ -43,5 +43,28 @@ namespace JobManager.Helpers
             job.JobSteps[stepID - 1].Drop();
             job.JobSteps.Refresh();
         }
+
+        public StepDetailsModel getStepDetails(string serverName, Guid jobID, int stepID)
+        {
+            StepDetailsModel step = new StepDetailsModel();
+            ConnectSqlServer connection = new ConnectSqlServer();
+            Server dbServer = connection.Connect(serverName);
+            Job job = dbServer.JobServer.GetJobByID(jobID);
+            JobStep jobstep = job.JobSteps[stepID - 1];
+
+            step.ServerName = serverName;
+            step.JobID = jobID;
+            step.StepNo = jobstep.ID;
+            step.StepName = jobstep.Name;
+            step.RunAs = jobstep.ProxyName;
+            step.Database = jobstep.DatabaseName;
+            step.Command = jobstep.Command;
+            step.OnSuccess = jobstep.OnSuccessAction;
+            step.OnSuccessStep = jobstep.OnSuccessStep;
+            step.OnFailure = jobstep.OnFailAction;
+            step.OnFailureStep = jobstep.OnFailStep;
+
+            return step;
+        }
     }
 }

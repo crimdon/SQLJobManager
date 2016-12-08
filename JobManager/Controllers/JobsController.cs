@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using JobManager.Helpers;
-using SharkDev.Web.Controls.TreeView.Model;
 using JobManager.Models;
 using System.Linq;
 

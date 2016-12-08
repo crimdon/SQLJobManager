@@ -6,12 +6,10 @@
 </h3>
 
 <br />
-<div style="justify-content:center">
+
+<ul class="nav nav-tabs nav-stacked">
     @foreach (JobManager.Models.IServers item in Model)
     {
-        <p>
-            @Html.ActionLink(item.ServerName, "Index", "Schedule", new { dbServer = item.ServerName }, null)
-        </p>
-
+        <li>@Html.ActionLink(item.ServerName, "Summary", "Schedule", new { dbServer = item.ServerName }, null)</li>
     }
-</div>
+</ul>

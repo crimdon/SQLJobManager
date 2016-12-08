@@ -7,14 +7,9 @@
 </h3>
 
 <br />
-<div>
-    @Html.ActionLink("General", "General", "Edit", new { dbServer = ViewBag.ServerName, jobID = ViewBag.JobID }, null)
-    <br />
-    @Html.ActionLink("Steps", "Steps", "Edit", new { dbServer = ViewBag.ServerName, jobID = ViewBag.JobID }, null)
-    <br />
-    @Html.ActionLink("Schedules", "Schedules", "Edit", new { dbServer = ViewBag.ServerName, jobID = ViewBag.JobID }, null)
-</div>
 
-<h3>
-    @ViewBag.ServerName
-</h3>
+<ul class="nav nav-tabs nav-stacked">
+    <li>@Html.ActionLink("General", "General", "Edit", new { dbServer = ViewBag.ServerName, jobID = ViewBag.JobID }, null)</li>
+    <li>@Html.ActionLink("Steps", "Steps", "Edit", new { dbServer = ViewBag.ServerName, jobID = ViewBag.JobID }, null)</li>
+    <li>@Html.ActionLink("Schedules", "Schedules", "Edit", new { dbServer = ViewBag.ServerName, jobID = ViewBag.JobID }, null)</li>
+</ul>

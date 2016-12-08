@@ -73,7 +73,31 @@ namespace JobManager.Controllers
         {
             JobSchedules jobschedules = new JobSchedules();
             jobschedules.deleteSchedule(dbServer, jobID, scheduleUID);
+            ViewBag.ServerName = dbServer;
+            ViewBag.JobID = jobID;
             return RedirectToAction("Schedules", "Edit", new { dbServer = dbServer, jobID = jobID });
+        }
+
+        [HttpGet]
+        public ActionResult EditStep (string dbServer, Guid jobID, int StepID)
+        {
+            JobSteps jobSteps = new JobSteps();
+            StepDetailsModel step = new StepDetailsModel();
+
+            ViewBag.ServerName = dbServer;
+            ViewBag.JobID = jobID;
+            step = jobSteps.getStepDetails(dbServer, jobID, StepID);
+            return View(step);
+        }
+
+        [HttpPost]
+        public ActionResult EditStep(StepDetailsModel step)
+        {
+            JobSteps jobSteps = new JobSteps();
+
+            ViewBag.ServerName = step.ServerName;
+            ViewBag.JobID = step.JobID;
+            return RedirectToAction("Steps", "Edit", new { dbServer = step.ServerName, jobID = step.JobID });
         }
     }
 }
