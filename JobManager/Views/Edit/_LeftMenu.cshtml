@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "Edit Menu";
+}
+
+<h3>
+    Select a page
+</h3>
+
+<br />
+<div>
+    @Html.ActionLink("General", "General", "Edit", new { dbServer = ViewBag.ServerName, jobID = ViewBag.JobID }, null)
+    <br />
+    @Html.ActionLink("Steps", "Steps", "Edit", new { dbServer = ViewBag.ServerName, jobID = ViewBag.JobID }, null)
+    <br />
+    @Html.ActionLink("Schedules", "Schedules", "Edit", new { dbServer = ViewBag.ServerName, jobID = ViewBag.JobID }, null)
+</div>
+
+<h3>
+    @ViewBag.ServerName
+</h3>

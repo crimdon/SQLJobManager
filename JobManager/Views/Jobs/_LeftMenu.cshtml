@@ -1,0 +1,39 @@
+﻿
+@using SharkDev.MVC
+@using SharkDev.Web.Controls.TreeView.Model
+
+@{
+    ViewBag.Title = "Server Menu";
+}
+
+<link href="~/Content/SharkDev.TreeView.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/SharkDev.treeView.js"></script>
+
+<h3>
+    Servers:
+</h3>
+
+<br />
+<div style="justify-content:center">
+    @foreach (JobManager.Models.IServers item in Model)
+    {
+        <p>
+            @Html.ActionLink(item.ServerName, "Index", "Jobs", new { dbServer = item.ServerName }, null)
+        </p>
+
+    }
+</div>
+@*@Html.SharkDev().TreeView(settings =>
+{
+    settings.Id = "treeViewContainer";
+    settings.Header.Text = "SQL Servers";
+    settings.Header.Visible = true;
+    settings.Header.Expanded = true;
+    settings.ClientHandlers.ContentSelect = "function (e) { $('#treeClickContainer').text(e.id + '-' + e.name + ' -' + e.parentid); }";
+    //settings.ClientHandlers.ContentSelect = "function (e) { Url.Action(\"Index\", \"Job\", new { dbServer : e.name});}";
+    settings.Height = 300;
+    settings.Width = 270;
+    settings.DataOnClient = true;
+}).GetContent(ViewBag.SharkTreeData);*@

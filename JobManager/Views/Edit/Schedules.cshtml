@@ -1,0 +1,91 @@
+﻿
+@{
+    ViewBag.Title = "Schedules";
+}
+
+
+@using GridMvc.Html;
+@using GridMvc.Sorting;
+@using JobManager.Models;
+
+@section LeftMenu{
+    @{Html.RenderAction("_LeftMenu", "Edit");
+    }
+}
+
+@model List<JobScheduleListModel>
+
+<link href="@Url.Content("~/Content/Gridmvc.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" />
+
+<div>
+    <h3>Job Steps</h3>
+</div>
+
+
+<div class="code-cut">
+    @Html.Grid(Model).Columns(columns =>
+{
+    columns.Add()
+    .Encoded(false)
+    .Sanitized(false)
+    .SetWidth(30)
+    .RenderValueAs(m => RenderEditButton(m));
+    columns.Add()
+    .Encoded(false)
+    .Sanitized(false)
+    .SetWidth(30)
+    .RenderValueAs(m => RenderDeleteButton(m));
+    columns.Add(m => m.ScheduleID)
+    .Titled("ID")
+    .Sortable(true)
+    .Filterable(false);
+    columns.Add(m => m.Name)
+    .Titled("Step Name")
+    .Sortable(true)
+    .SortInitialDirection(GridSortDirection.Ascending)
+    .Filterable(false);
+    columns.Add()
+    .Titled("Enabled")
+    .Filterable(false)
+    .RenderValueAs(m => RenderEnabled(m));
+    columns.Add(m => m.Description)
+    .Titled("Description")
+    .Sortable(true)
+    .Filterable(false);
+}).WithPaging(25)
+</div>
+
+@helper RenderEnabled(JobScheduleListModel schdule)
+    {
+if (schdule.Enabled)
+{ <text>Yes</text>}
+else
+{ <text>No</text>}
+}
+
+@helper RenderEditButton(JobScheduleListModel schedule)
+{
+        @Html.ActionLink("Edit", "EditSchedule", "Edit",
+         new
+         {
+             dbServer = ViewBag.ServerName,
+             jobID = ViewBag.JobID,
+             scheduleIDID = schedule.ScheduleUID
+         },
+         new { @class = "btn btn-success" });
+}
+
+@helper RenderDeleteButton(JobScheduleListModel schedule)
+{
+
+        @Html.ActionLink("Delete", "DeleteSchedule", "Edit",
+        new
+        {
+            dbServer = ViewBag.ServerName,
+            jobID = ViewBag.JobID,
+            stepID = schedule.ScheduleUID
+        },
+        new { @class = "btn btn-danger" });
+}
+

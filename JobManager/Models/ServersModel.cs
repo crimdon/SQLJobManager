@@ -6,7 +6,7 @@ using System.Web;
 
 namespace JobManager.Models
 {
-    public class Servers : IServers
+    public class ServersModel : IServers
     {
         public string ServerName { get; set; }
     }

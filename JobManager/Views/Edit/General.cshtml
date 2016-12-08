@@ -1,0 +1,133 @@
+﻿
+@{
+    ViewBag.Title = "General";
+}
+
+@section LeftMenu{
+    @{Html.RenderAction("_LeftMenu", "Edit", new { dbServer = ViewBag.ServerName, jobID = ViewBag.JobID});
+    }
+}
+
+@model JobManager.Models.JobDetailsModel
+
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <legend>General</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(m => m.JobName)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(m => m.JobName)
+        </div>
+        <br />
+
+        <div class="editor-label">
+            @Html.LabelFor(m => m.Owner)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(m => m.Owner)
+        </div>
+        <br />
+
+        <div class="editor-label">
+            @Html.LabelFor(m => m.Description)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(m => m.Description, 5, 50, new { @class = "form-control" })
+        </div>
+        <br />
+
+        <div class="editor-label">
+            @Html.LabelFor(m => m.Enabled)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(m => m.Enabled)
+        </div>
+        <br />
+
+        <div class="editor-label">
+            @Html.LabelFor(m => m.Created)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(m => m.Created, new { @readonly="readonly"})
+        </div>
+        <br />
+
+        <div class="editor-label">
+            @Html.LabelFor(m => m.LastExecuted)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(m => m.LastExecuted, new { @readonly = "readonly" })
+        </div>
+        <br />
+
+        <div class="editor-label">
+            @Html.LabelFor(m => m.LastModified)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(m => m.LastModified, new { @readonly = "readonly" })
+        </div>
+        <br />
+
+        <div class="hidden">
+            @Html.HiddenFor(m => m.ServerName)
+            @Html.HiddenFor(m => m.JobID)
+        </div>
+        <br />
+
+        <div class="btn-block">
+            <input type="submit" value="Update Job" class="myButton"/>
+        </div>
+
+    </fieldset>
+}
+
+@if (TempData["message"] != null)
+{
+    <p>@Html.Encode(TempData["message"])</p>
+}
+
+<style>
+    .myButton {
+	-moz-box-shadow:inset 0px 1px 3px 0px #91b8b3;
+	-webkit-box-shadow:inset 0px 1px 3px 0px #91b8b3;
+	box-shadow:inset 0px 1px 3px 0px #91b8b3;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #768d87), color-stop(1, #6c7c7c));
+	background:-moz-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
+	background:-webkit-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
+	background:-o-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
+	background:-ms-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
+	background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#768d87', endColorstr='#6c7c7c',GradientType=0);
+	background-color:#768d87;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	border:1px solid #566963;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:11px 23px;
+	text-decoration:none;
+	text-shadow:0px -1px 0px #2b665e;
+}
+.myButton:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #6c7c7c), color-stop(1, #768d87));
+	background:-moz-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
+	background:-webkit-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
+	background:-o-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
+	background:-ms-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
+	background:linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#6c7c7c', endColorstr='#768d87',GradientType=0);
+	background-color:#6c7c7c;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+</style>

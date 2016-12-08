@@ -3,6 +3,11 @@
     ViewBag.Title = "Summary";
 }
 
+@section LeftMenu{
+    @{Html.RenderAction("_LeftMenu", "Home");
+    }
+}
+
 <h2>Summary</h2>
 
 <table class="table">

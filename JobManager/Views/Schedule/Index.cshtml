@@ -8,11 +8,11 @@
 @using JobManager.Models;
 
 @section LeftMenu{
-    @{Html.RenderAction("_LeftMenu", "Home");
+    @{Html.RenderAction("_LeftMenu", "Schedule");
     }
 }
 
-@model List<JobSummary>
+@model List<JobSummaryModel>
 
 <link href="@Url.Content("~/Content/Gridmvc.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" />
@@ -29,52 +29,52 @@
     .Encoded(false)
     .Sanitized(false)
     .SetWidth(30)
-    .RenderValueAs(JobSummary => RenderStartButton(JobSummary));
-    columns.Add(JobSummary => JobSummary.ServerName)
+    .RenderValueAs(JobSummaryModel => RenderStartButton(JobSummaryModel));
+    columns.Add(JobSummaryModel => JobSummaryModel.ServerName)
     .Titled("Server Name")
     .Sortable(true)
     .Filterable(false);
-    columns.Add(JobSummary => JobSummary.JobName)
+    columns.Add(JobSummaryModel => JobSummaryModel.JobName)
     .Titled("Job Name")
     .Sortable(true)
     .SortInitialDirection(GridSortDirection.Ascending)
     .Filterable(false);
-    columns.Add(JobSummary => JobSummary.Enabled)
+    columns.Add(JobSummaryModel => JobSummaryModel.Enabled)
     .Titled("Enabled")
     .Filterable(false)
-    .RenderValueAs(JobSummary => RenderEnabled(JobSummary));
-    columns.Add(JobSummary => JobSummary.Status)
+    .RenderValueAs(JobSummaryModel => RenderEnabled(JobSummaryModel));
+    columns.Add(JobSummaryModel => JobSummaryModel.Status)
     .Titled("Status")
     .Sortable(true)
     .Filterable(false);
-    columns.Add(JobSummary => JobSummary.LastOutcome)
+    columns.Add(JobSummaryModel => JobSummaryModel.LastOutcome)
     .Titled("Last Outcome")
     .Sortable(true)
     .Filterable(false);
-    columns.Add(JobSummary => JobSummary.LastRun)
+    columns.Add(JobSummaryModel => JobSummaryModel.LastRun)
     .Titled("Last Run")
     .Sortable(true)
     .Filterable(false);
-    columns.Add(JobSummary => JobSummary.NextRun)
+    columns.Add(JobSummaryModel => JobSummaryModel.NextRun)
     .Titled("Next Run")
     .Sortable(true)
     .Filterable(false);
-    columns.Add(JobSummary => JobSummary.Category)
+    columns.Add(JobSummaryModel => JobSummaryModel.Category)
     .Titled("Category")
     .Sortable(true)
     .Filterable(true);
-    columns.Add(JobSummary => JobSummary.Runable)
+    columns.Add(JobSummaryModel => JobSummaryModel.Runable)
     .Titled("Runable")
     .Filterable(true)
-    .RenderValueAs(JobSummary => RenderRunable(JobSummary));
-    columns.Add(JobSummary => JobSummary.Scheduled)
+    .RenderValueAs(JobSummaryModel => RenderRunable(JobSummaryModel));
+    columns.Add(JobSummaryModel => JobSummaryModel.Scheduled)
     .Titled("Scheduled")
     .Filterable(true)
-    .RenderValueAs(JobSummary => RenderScheduled(JobSummary));
+    .RenderValueAs(JobSummaryModel => RenderScheduled(JobSummaryModel));
 }).WithPaging(25)
 </div>
 
-@helper RenderEnabled (JobSummary jobs)
+@helper RenderEnabled (JobSummaryModel jobs)
     {
 if (jobs.Enabled)
 {
@@ -83,9 +83,8 @@ if (jobs.Enabled)
 else
 {<text>No</text>}
 }
-}
 
-@helper RenderScheduled(JobSummary jobs)
+@helper RenderScheduled(JobSummaryModel jobs)
 {
 if (jobs.Scheduled)
 {
@@ -94,9 +93,8 @@ if (jobs.Scheduled)
 else
 {<text>No</text>}
 }
-}
 
-@helper RenderRunable(JobSummary jobs)
+@helper RenderRunable(JobSummaryModel jobs)
 {
 if (jobs.Runable)
 {
@@ -105,9 +103,8 @@ if (jobs.Runable)
 else
 {<text>No</text>}
 }
-}
 
-@helper RenderStartButton(JobSummary jobs)
+@helper RenderStartButton(JobSummaryModel jobs)
 {
 if (jobs.Runable && jobs.Status == "Idle")
 {
@@ -121,5 +118,4 @@ if (jobs.Runable && jobs.Status == "Idle")
 }
 else
 {<text></text>}
-}
 }

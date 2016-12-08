@@ -4,6 +4,7 @@ using Microsoft.SqlServer.Management.Smo;
 using System.Data;
 using System.Globalization;
 using JobManager.Models;
+using System.Linq;
 
 namespace JobManager.Helpers
 {
@@ -14,12 +15,12 @@ namespace JobManager.Helpers
         private DateTime lastRun;
         private DateTime nextRun;
         private bool runable;
-        public List<JobSummary> getJobs(string selectedServer = null)
+        public List<JobSummaryModel> getJobs(string selectedServer = null)
         {
             List<IServers> servers = GetConfig.GetServers();
 
 
-            List<JobSummary> joblist = new List<JobSummary>();
+            List<JobSummaryModel> joblist = new List<JobSummaryModel>();
 
 
             foreach (var server in servers)
@@ -107,7 +108,7 @@ namespace JobManager.Helpers
                         else
                             runable = false;
 
-                        joblist.Add(new JobSummary
+                        joblist.Add(new JobSummaryModel
                         {
                             JobID = Guid.Parse(row["job_id"].ToString()),
                             ServerName = row["originating_server"].ToString(),
@@ -127,7 +128,8 @@ namespace JobManager.Helpers
                     dbServer.ConnectionContext.Disconnect();
                 }
             }
-            return joblist;
+            var sortedList = joblist.OrderBy(o => o.JobName).ToList();
+            return sortedList;
         }
     }
 }

@@ -1,7 +1,76 @@
-﻿
-@{
-    ViewBag.Title = "Index";
+﻿@{
+    ViewBag.Title = "Jobs";
 }
 
-<h2>Index</h2>
+@using GridMvc.Html;
+@using GridMvc.Sorting;
+@using JobManager.Models;
+
+@section LeftMenu{
+    @{Html.RenderAction("_LeftMenu", "Jobs");
+    }
+}
+
+@model List<JobSummaryModel>
+
+<h3>Jobs</h3>
+
+<link href="@Url.Content("~/Content/Gridmvc.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" />
+
+<div class="code-cut">
+    @Html.Grid(Model).Columns(columns =>
+{
+    columns.Add()
+    .Encoded(false)
+    .Sanitized(false)
+    .SetWidth(30)
+    .RenderValueAs(JobSummaryModel => RenderEditButton(JobSummaryModel));
+    columns.Add(JobSummaryModel => JobSummaryModel.ServerName)
+    .Titled("Server Name")
+    .Sortable(true)
+    .Filterable(false);
+    columns.Add(JobSummaryModel => JobSummaryModel.JobName)
+    .Titled("Job Name")
+    .Sortable(true)
+    .SortInitialDirection(GridSortDirection.Ascending)
+    .Filterable(false);
+    columns.Add(JobSummaryModel => JobSummaryModel.Enabled)
+    .Titled("Enabled")
+    .Filterable(false)
+    .RenderValueAs(JobSummaryModel => RenderEnabled(JobSummaryModel));
+    columns.Add(JobSummaryModel => JobSummaryModel.Status)
+    .Titled("Status")
+    .Sortable(true)
+    .Filterable(false);
+}).WithPaging(25)
+</div>
+
+@helper RenderEnabled(JobSummaryModel jobs)
+{
+if (jobs.Enabled)
+{
+        <text>Yes</text>
+}
+else
+{<text>No</text>}
+}
+}
+
+@helper RenderEditButton(JobSummaryModel jobs)
+{
+if (jobs.Runable && jobs.Status == "Idle")
+{
+        @Html.ActionLink("Edit Job", "General", "Edit",
+        new
+        {
+            dbServer = jobs.ServerName,
+            jobID = jobs.JobID
+        },
+        new { @class = "btn btn-success" });
+}
+else
+{<text></text>}
+}
+}
 

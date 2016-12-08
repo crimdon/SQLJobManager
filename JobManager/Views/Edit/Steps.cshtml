@@ -1,0 +1,123 @@
+﻿
+@{
+    ViewBag.Title = "Steps";
+}
+
+
+@using GridMvc.Html;
+@using GridMvc.Sorting;
+@using JobManager.Models;
+
+@section LeftMenu{
+    @{Html.RenderAction("_LeftMenu", "Edit");
+    }
+}
+
+@model List<JobStepListModel>
+
+<link href="@Url.Content("~/Content/Gridmvc.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" />
+
+<div>
+    <h3>Job Steps</h3>
+</div>
+
+
+<div class="code-cut">
+    @Html.Grid(Model).Columns(columns =>
+{
+    columns.Add()
+    .Encoded(false)
+    .Sanitized(false)
+    .SetWidth(30)
+    .RenderValueAs(m => RenderEditButton(m));
+    columns.Add()
+    .Encoded(false)
+    .Sanitized(false)
+    .SetWidth(30)
+    .RenderValueAs(m => RenderDeleteButton(m));
+    columns.Add(m => m.StepNo)
+    .Titled("ID")
+    .Sortable(true)
+    .Filterable(false);
+    columns.Add(m => m.StepName)
+    .Titled("Step Name")
+    .Sortable(true)
+    .SortInitialDirection(GridSortDirection.Ascending)
+    .Filterable(false);
+    columns.Add()
+    .Titled("Type")
+    .Filterable(false)
+    .RenderValueAs(m => RenderStepType(m));
+    columns.Add()
+    .Titled("On Success")
+    .Sortable(true)
+    .Filterable(false)
+    .RenderValueAs(m => RenderOnSuccess(m));
+    columns.Add()
+    .Titled("On Failure")
+    .Sortable(true)
+    .Filterable(false)
+    .RenderValueAs(m => RenderOnFailure(m));
+}).WithPaging(25)
+</div>
+
+@helper RenderStepType(JobStepListModel step)
+{
+        @step.StepType.ToString();
+}
+
+@helper RenderOnSuccess(JobStepListModel step)
+{
+if (step.OnSuccessStep != 0)
+{
+        <text>Goto step: </text> @step.OnSuccessStep;
+}
+else
+{ @step.OnSuccess.ToString(); }
+}
+
+@helper RenderOnFailure(JobStepListModel step)
+{
+if (step.OnFailureStep != 0)
+{
+        <text>Goto step: </text> @step.OnFailureStep;
+}
+else
+{ @step.OnFailure.ToString(); }
+}
+
+
+@helper RenderEditButton(JobStepListModel step)
+{
+if (step.StepType == Microsoft.SqlServer.Management.Smo.Agent.AgentSubSystem.TransactSql)
+{
+        @Html.ActionLink("Edit", "EditStep", "Edit",
+        new
+        {
+            dbServer = ViewBag.ServerName,
+            jobID = ViewBag.JobID,
+            stepID = step.StepNo
+        },
+        new { @class = "btn btn-success" });
+}
+else
+{<text></text>}
+}
+
+@helper RenderDeleteButton(JobStepListModel step)
+{
+if (step.StepType == Microsoft.SqlServer.Management.Smo.Agent.AgentSubSystem.TransactSql)
+{
+        @Html.ActionLink("Delete", "DeleteStep", "Edit",
+        new
+        {
+            dbServer = ViewBag.ServerName,
+            jobID = ViewBag.JobID,
+            stepID = step.StepNo
+        },
+        new { @class = "btn btn-danger" });
+}
+else
+{<text></text>}
+}

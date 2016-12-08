@@ -5,8 +5,6 @@ using System.Web.Mvc;
 using JobManager.Helpers;
 using JobManager.Models;
 
-
-
 namespace JobManager.Controllers
 {
     public class ScheduleController : Controller
@@ -14,7 +12,7 @@ namespace JobManager.Controllers
         public ActionResult Index(string dbServer = null)
         {
             JobList jobs = new JobList();
-            List<Models.JobSummary> joblist = new List<Models.JobSummary>();
+            List<Models.JobSummaryModel> joblist = new List<Models.JobSummaryModel>();
             joblist = jobs.getJobs(dbServer);
             return View(joblist);
         }
@@ -27,6 +25,13 @@ namespace JobManager.Controllers
             server.JobServer.GetJobByID(jobID).Start();
             server.ConnectionContext.Disconnect();
             return RedirectToAction("Index", "Schedule", new { dbServer = dbServer });
+        }
+
+        public PartialViewResult _LeftMenu()
+        {
+            List<IServers> servers = new List<IServers>();
+            servers = GetConfig.GetServers();
+            return PartialView(servers);
         }
     }
 }

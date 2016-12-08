@@ -81,6 +81,14 @@
       <HintPath>..\packages\Unofficial.Microsoft.SQLServer.SMO.2014.12.0.2000.8\lib\Microsoft.SqlServer.SqlEnum.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="SharkDev.MVC, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharkTree.1.2.1.2\lib\SharkDev.MVC.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SharkDev.Web.Controls, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharkTree.1.2.1.2\lib\SharkDev.Web.Controls.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -152,6 +160,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\EditController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobsController.cs" />
     <Compile Include="Controllers\ScheduleController.cs" />
@@ -160,16 +169,25 @@
     </Compile>
     <Compile Include="Helpers\ConnectSqlServer.cs" />
     <Compile Include="Helpers\GetConfig.cs" />
+    <Compile Include="Helpers\JobDetails.cs" />
     <Compile Include="Helpers\JobList.cs" />
+    <Compile Include="Helpers\JobSchedules.cs" />
+    <Compile Include="Helpers\JobSteps.cs" />
     <Compile Include="Models\IServers.cs" />
-    <Compile Include="Models\JobSummary.cs" />
-    <Compile Include="Models\Servers.cs" />
+    <Compile Include="Models\JobDetailsModel.cs" />
+    <Compile Include="Models\JobScheduleListModel.cs" />
+    <Compile Include="Models\JobScheduleModel.cs" />
+    <Compile Include="Models\JobStepListModel.cs" />
+    <Compile Include="Models\JobSummaryModel.cs" />
+    <Compile Include="Models\ServersModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Gridmvc.css" />
+    <Content Include="Content\Images\SharkDev.TreeView.png" />
+    <Content Include="Content\SharkDev.TreeView.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -191,6 +209,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\SharkDev.treeView.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -210,6 +229,12 @@
     <Content Include="Views\Shared\_Grid.cshtml" />
     <Content Include="Views\Home\Summary.cshtml" />
     <Content Include="Views\Home\_LeftMenu.cshtml" />
+    <Content Include="Views\Jobs\_LeftMenu.cshtml" />
+    <Content Include="Views\Schedule\_LeftMenu.cshtml" />
+    <Content Include="Views\Edit\General.cshtml" />
+    <Content Include="Views\Edit\_LeftMenu.cshtml" />
+    <Content Include="Views\Edit\Steps.cshtml" />
+    <Content Include="Views\Edit\Schedules.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

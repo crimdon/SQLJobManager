@@ -31,8 +31,9 @@
             </div>
         </div>
     </div>
-
-    @RenderSection("LeftMenu", required: false)
+    <div class="navbar-left">
+        @RenderSection("LeftMenu", required: false)
+    </div>
 
     <div class="container body-content">
         @RenderBody()

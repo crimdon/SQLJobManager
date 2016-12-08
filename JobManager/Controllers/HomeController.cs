@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using JobManager.Helpers;
 using JobManager.Models;
+using System.Linq;
 
 namespace JobManager.Controllers
 {
@@ -13,11 +14,11 @@ namespace JobManager.Controllers
             return View();
         }
 
-        public ActionResult Summary()
+        public ActionResult Summary(string dbServer = null)
         {
             JobList jobs = new JobList();
-            List<Models.JobSummary> joblist = new List<Models.JobSummary>();
-            joblist = jobs.getJobs();
+            List<Models.JobSummaryModel> joblist = new List<Models.JobSummaryModel>();
+            joblist = jobs.getJobs(dbServer);
 
             int jobsFound = 0;
             int jobsRunning = 0;

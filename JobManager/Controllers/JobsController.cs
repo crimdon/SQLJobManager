@@ -1,17 +1,30 @@
-﻿using System;
+﻿using Microsoft.SqlServer.Management.Smo;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using JobManager.Helpers;
+using SharkDev.Web.Controls.TreeView.Model;
+using JobManager.Models;
+using System.Linq;
 
 namespace JobManager.Controllers
 {
     public class JobsController : Controller
     {
-        // GET: Jobs
-        public ActionResult Index()
+        public ActionResult Index(string dbServer = null)
         {
-            return View();
+            JobList jobs = new JobList();
+            List<Models.JobSummaryModel> joblist = new List<Models.JobSummaryModel>();
+            joblist = jobs.getJobs(dbServer);
+            
+            return View(joblist);
+        }
+
+        public PartialViewResult _LeftMenu()
+        {
+            List<IServers> servers = new List<IServers>();
+            servers = GetConfig.GetServers();
+            return PartialView(servers);
         }
     }
 }

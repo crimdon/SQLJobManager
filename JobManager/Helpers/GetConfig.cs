@@ -12,8 +12,8 @@ namespace JobManager.Helpers
         {
             List<IServers> serverList = new List<IServers>();
 
-            serverList.Add (new Servers { ServerName = "SQLSERVER" });
-            serverList.Add (new Servers { ServerName = "SQLREPORTS" });
+            serverList.Add (new ServersModel { ServerName = "SQLSERVER" });
+            serverList.Add (new ServersModel { ServerName = "SQLREPORTS" });
             return serverList;
         }
 

@@ -10,7 +10,7 @@
     @foreach (JobManager.Models.IServers item in Model)
     {
         <p>
-            @Html.ActionLink(item.ServerName, "Summary", "Home", new { dbServer = item.ServerName }, null)
+            @Html.ActionLink(item.ServerName, "Index", "Schedule", new { dbServer = item.ServerName }, null)
         </p>
 
     }
