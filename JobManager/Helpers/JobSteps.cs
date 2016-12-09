@@ -59,12 +59,93 @@ namespace JobManager.Helpers
             step.RunAs = jobstep.ProxyName;
             step.Database = jobstep.DatabaseName;
             step.Command = jobstep.Command;
-            step.OnSuccess = jobstep.OnSuccessAction;
-            step.OnSuccessStep = jobstep.OnSuccessStep;
-            step.OnFailure = jobstep.OnFailAction;
-            step.OnFailureStep = jobstep.OnFailStep;
+            switch (jobstep.OnSuccessAction)
+            {
+                case StepCompletionAction.GoToNextStep:
+                    step.OnSuccess = "GoToNextStep";
+                    break;
+                case StepCompletionAction.QuitWithSuccess:
+                    step.OnSuccess = "QuitWithSuccess";
+                    break;
+                case StepCompletionAction.QuitWithFailure:
+                    step.OnSuccess = "QuitWithFailue";
+                    break;
+                case StepCompletionAction.GoToStep:
+                    step.OnSuccess = "GoToStep:" + jobstep.OnSuccessStep;
+                    break;
+            }
+            switch (jobstep.OnFailAction)
+            {
+                case StepCompletionAction.GoToNextStep:
+                    step.OnFailure = "GoToNextStep";
+                    break;
+                case StepCompletionAction.QuitWithSuccess:
+                    step.OnFailure = "QuitWithSuccess";
+                    break;
+                case StepCompletionAction.QuitWithFailure:
+                    step.OnFailure = "QuitWithFailue";
+                    break;
+                case StepCompletionAction.GoToStep:
+                    step.OnFailure = "GoToStep:" + jobstep.OnSuccessStep;
+                    break;
+            }
 
             return step;
+        }
+
+        public void saveStepDetails(StepDetailsModel Step)
+        {
+            ConnectSqlServer connection = new ConnectSqlServer();
+            Server dbServer = connection.Connect(Step.ServerName);
+            Job job = dbServer.JobServer.GetJobByID(Step.JobID);
+
+            JobStep stepToUpdate = job.JobSteps[Step.StepNo - 1];
+
+            if (stepToUpdate.Name != Step.StepName)
+                stepToUpdate.Rename(Step.StepName);
+            stepToUpdate.DatabaseName = Step.Database;
+            stepToUpdate.Command = Step.Command;
+            switch (Step.OnSuccess)
+            {
+                case "GoToNextStep":
+                    stepToUpdate.OnSuccessAction = StepCompletionAction.GoToNextStep;
+                    stepToUpdate.OnSuccessStep = 0;
+                    break;
+                case "QuitWithSuccess":
+                    stepToUpdate.OnSuccessAction = StepCompletionAction.QuitWithSuccess;
+                    stepToUpdate.OnSuccessStep = 0;
+                    break;
+                case "QuitWithFailue":
+                    stepToUpdate.OnSuccessAction = StepCompletionAction.QuitWithFailure;
+                    stepToUpdate.OnSuccessStep = 0;
+                    break;
+                default:
+                    stepToUpdate.OnSuccessAction = StepCompletionAction.GoToStep;
+                    stepToUpdate.OnSuccessStep = int.Parse(Step.OnSuccess.Split(':')[1]);
+                    break;
+            }
+            switch (Step.OnFailure)
+            {
+                case "GoToNextStep":
+                    stepToUpdate.OnFailAction = StepCompletionAction.GoToNextStep;
+                    stepToUpdate.OnFailStep = 0;
+                    break;
+                case "QuitWithSuccess":
+                    stepToUpdate.OnFailAction = StepCompletionAction.QuitWithSuccess;
+                    stepToUpdate.OnFailStep = 0;
+                    break;
+                case "QuitWithFailue":
+                    stepToUpdate.OnFailAction = StepCompletionAction.QuitWithFailure;
+                    stepToUpdate.OnFailStep = 0;
+                    break;
+                default:
+                    stepToUpdate.OnFailAction = StepCompletionAction.GoToStep;
+                    stepToUpdate.OnFailStep = int.Parse(Step.OnSuccess.Split(':')[1]);
+                    break;
+            }
+
+            stepToUpdate.Alter();
+            stepToUpdate.Refresh();
         }
     }
 }

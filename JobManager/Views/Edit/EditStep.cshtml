@@ -44,8 +44,8 @@
                         <div class="editor-label">
                             @Html.LabelFor(m => m.Database)
                         </div>
-                        <div class="editor-field">
-                            @Html.TextBoxFor(m => m.Database)
+                        <div class="editor-field form-control-container text-left">
+                            @Html.DropDownListFor(m => m.Database, (List<SelectListItem>)ViewBag.DatabaseList)
                         </div>
                         <br />
                         <div class="editor-label">
@@ -53,6 +53,7 @@
                         </div>
                         <div class="editor-field">
                             @Html.TextAreaFor(m => m.Command, 10, 100, htmlAttributes: new { style = "width: 100%; max-width: 100%;" })
+              
                         </div>
                     </div>
                 </div>
@@ -67,38 +68,30 @@
                 </div>
                 <div id="collapseAdvanced" class="panel-collapse collapse">
                     <div class="panel-body">
-                        @*<div class="editor-label">
-                            @Html.LabelFor(m => m.OnSuccess)
+                        <div class="editor-label">
+                            On success action:
                         </div>
-                        <div class="editor-field">
-                            @Html.TextBoxFor(m => m.OnSuccess.ToString())
+                        <div class="editor-field form-control-container text-left">
+                            @Html.DropDownListFor(m => m.OnSuccess, (List<SelectListItem>)ViewBag.ActionList)
                         </div>
                         <br />
                         <div class="editor-label">
-                            @Html.LabelFor(m => m.OnSuccessStep)
+                            On failure action:
                         </div>
-                        <div class="editor-field">
-                            @Html.TextBoxFor(m => m.OnSuccessStep)
-                        </div>
-                        <br />
-                        <div class="editor-label">
-                            @Html.LabelFor(m => m.OnFailure)
-                        </div>
-                        <div class="editor-field">
-                            @Html.TextBoxFor(m => m.OnFailure.ToString())
+                        <div class="editor-field form-control-container text-left">
+                            @Html.DropDownListFor(m => m.OnFailure, (List<SelectListItem>)ViewBag.ActionList)
                         </div>
                         <br />
-                        <div class="editor-label">
-                            @Html.LabelFor(m => m.OnFailureStep)
-                        </div>
-                        <div class="editor-field">
-                            @Html.TextBoxFor(m => m.OnFailureStep)
-                        </div>
-                        <br />*@
                         Not done yet
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="hidden">
+            @Html.HiddenFor(m => m.ServerName)
+            @Html.HiddenFor(m => m.JobID)
+            @Html.HiddenFor(m => m.StepNo)
         </div>
 
         <div class="btn-block">

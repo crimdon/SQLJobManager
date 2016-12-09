@@ -12,10 +12,8 @@ namespace JobManager.Models
         public string RunAs { get; set; }
         public string Database { get; set; }
         public string Command { get; set; }
-        public StepCompletionAction OnSuccess { get; set; }
-        public int OnSuccessStep { get; set; }
-        public StepCompletionAction OnFailure { get; set; }
-        public int OnFailureStep { get; set; }
+        public string OnSuccess { get; set; }
+        public string OnFailure { get; set; }
 
     }
 }

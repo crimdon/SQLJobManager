@@ -79,14 +79,23 @@ namespace JobManager.Controllers
         }
 
         [HttpGet]
-        public ActionResult EditStep (string dbServer, Guid jobID, int StepID)
+        public ActionResult EditStep (string dbServer, Guid jobID, int stepID)
         {
             JobSteps jobSteps = new JobSteps();
+            PopulateDropDowns dropdown = new PopulateDropDowns();
             StepDetailsModel step = new StepDetailsModel();
+            List<SelectListItem> databaseList = new List<SelectListItem>();
+            List<SelectListItem> actionList = new List<SelectListItem>();
+
+            databaseList = dropdown.getDatabases(dbServer);
+            ViewBag.DatabaseList = databaseList;
+
+            actionList = dropdown.getActions(dbServer, jobID, stepID);
+            ViewBag.ActionList = actionList;
 
             ViewBag.ServerName = dbServer;
             ViewBag.JobID = jobID;
-            step = jobSteps.getStepDetails(dbServer, jobID, StepID);
+            step = jobSteps.getStepDetails(dbServer, jobID, stepID);
             return View(step);
         }
 
@@ -94,6 +103,8 @@ namespace JobManager.Controllers
         public ActionResult EditStep(StepDetailsModel step)
         {
             JobSteps jobSteps = new JobSteps();
+
+            jobSteps.saveStepDetails(step);
 
             ViewBag.ServerName = step.ServerName;
             ViewBag.JobID = step.JobID;

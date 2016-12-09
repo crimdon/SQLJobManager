@@ -165,6 +165,7 @@
     <Compile Include="Helpers\JobList.cs" />
     <Compile Include="Helpers\JobSchedules.cs" />
     <Compile Include="Helpers\JobSteps.cs" />
+    <Compile Include="Helpers\PopulateDropDowns.cs" />
     <Compile Include="Models\IServers.cs" />
     <Compile Include="Models\JobDetailsModel.cs" />
     <Compile Include="Models\JobScheduleListModel.cs" />
