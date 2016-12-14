@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using JobManager.Models;
 using JobManager.Helpers;
+using Microsoft.SqlServer.Management.Smo.Agent;
 
 namespace JobManager.Controllers
 {
@@ -58,26 +59,6 @@ namespace JobManager.Controllers
             return RedirectToAction("Steps", "Edit", new { dbServer = dbServer, jobID = jobID });
         }
 
-        public ActionResult Schedules(string dbServer, Guid jobID)
-        {
-            List<JobScheduleListModel> schedules = new List<JobScheduleListModel>();
-            JobSchedules jobschedules = new JobSchedules();
-
-            schedules = jobschedules.getSchedules(dbServer, jobID);
-            ViewBag.ServerName = dbServer;
-            ViewBag.JobID = jobID;
-            return View(schedules);
-        }
-
-        public ActionResult DeleteSchedule (string dbServer, Guid jobID, Guid scheduleUID)
-        {
-            JobSchedules jobschedules = new JobSchedules();
-            jobschedules.deleteSchedule(dbServer, jobID, scheduleUID);
-            ViewBag.ServerName = dbServer;
-            ViewBag.JobID = jobID;
-            return RedirectToAction("Schedules", "Edit", new { dbServer = dbServer, jobID = jobID });
-        }
-
         [HttpGet]
         public ActionResult EditStep (string dbServer, Guid jobID, int stepID)
         {
@@ -109,6 +90,57 @@ namespace JobManager.Controllers
             ViewBag.ServerName = step.ServerName;
             ViewBag.JobID = step.JobID;
             return RedirectToAction("Steps", "Edit", new { dbServer = step.ServerName, jobID = step.JobID });
+        }
+
+        public ActionResult Schedules(string dbServer, Guid jobID)
+        {
+            List<JobScheduleListModel> schedules = new List<JobScheduleListModel>();
+            JobSchedules jobschedules = new JobSchedules();
+
+            schedules = jobschedules.getSchedules(dbServer, jobID);
+            ViewBag.ServerName = dbServer;
+            ViewBag.JobID = jobID;
+            return View(schedules);
+        }
+
+        public ActionResult DeleteSchedule(string dbServer, Guid jobID, Guid scheduleUID)
+        {
+            JobSchedules jobschedules = new JobSchedules();
+            jobschedules.deleteSchedule(dbServer, jobID, scheduleUID);
+            ViewBag.ServerName = dbServer;
+            ViewBag.JobID = jobID;
+            return RedirectToAction("Schedules", "Edit", new { dbServer = dbServer, jobID = jobID });
+        }
+
+        [HttpGet]
+        public ActionResult EditSchedule(string dbServer, Guid jobID, Guid scheduleUID)
+        {
+            JobSchedules jobschedules = new JobSchedules();
+            PopulateDropDowns dropdown = new PopulateDropDowns();
+            ScheduleDetailsModel schedule = new ScheduleDetailsModel();
+            List<SelectListItem> frequencyTypes = new List<SelectListItem>();
+
+            schedule = jobschedules.getScheduleDetails(dbServer, jobID, scheduleUID);
+
+            frequencyTypes = dropdown.getFrequencyTypes();
+            ViewBag.FreqTypes = frequencyTypes;
+
+            ViewBag.ServerName = dbServer;
+            ViewBag.JobID = jobID;
+
+            return View(schedule);
+        }
+
+        [HttpPost]
+        public ActionResult EditSchedule (JobSchedule schedule)
+        {
+            JobSchedules jobschedules = new JobSchedules();
+
+
+
+            ViewBag.ServerName = ViewBag.ServerName;
+            ViewBag.JobID = ViewBag.JobID;
+            return RedirectToAction("Schedules", "Edit", new { dbServer = ViewBag.ServerName, jobID = ViewBag.JobID });
         }
     }
 }

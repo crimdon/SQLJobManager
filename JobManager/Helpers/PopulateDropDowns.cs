@@ -42,5 +42,62 @@ namespace JobManager.Helpers
 
             return actions;
         }
+
+        public List<SelectListItem> getFrequencyTypes()
+        {
+            List<SelectListItem> frequencyTypes = new List<SelectListItem>();
+
+            frequencyTypes.Add(new SelectListItem { Text = "The schedule runs when the Microsoft SQL Server service is started.", Value = "AutoStart" });
+            frequencyTypes.Add(new SelectListItem { Text = "The schedule runs every day.", Value = "Daily" });
+            frequencyTypes.Add(new SelectListItem { Text = "The schedule runs every month.", Value = "Monthly" });
+            frequencyTypes.Add(new SelectListItem { Text = "The schedule runs at a specified relative interval each month", Value = "MonthlyRelative" });
+            frequencyTypes.Add(new SelectListItem { Text = "The schedule runs once only.", Value = "OneTime" });
+            frequencyTypes.Add(new SelectListItem { Text = "The schedule runs when the processor is idle.", Value = "OnIdle" });                       
+            frequencyTypes.Add(new SelectListItem { Text = "The schedule runs every week.", Value = "Weekly" });
+
+            return frequencyTypes;
+        }
+
+        public List<SelectListItem> getSubdayTypes()
+        {
+            List<SelectListItem> subDayTypes = new List<SelectListItem>();
+
+            subDayTypes.Add(new SelectListItem { Text = "hour(s)", Value = "hour" });
+            subDayTypes.Add(new SelectListItem { Text = "minute(s)", Value = "minute" });
+            subDayTypes.Add(new SelectListItem { Text = "second(s)", Value = "second" });
+
+            return subDayTypes;
+        }
+
+        public List<SelectListItem> getFreqRelativeIntervals()
+        {
+            List<SelectListItem> freqRelativeIntervals = new List<SelectListItem>();
+
+            freqRelativeIntervals.Add(new SelectListItem { Text = "First", Value = "First" });
+            freqRelativeIntervals.Add(new SelectListItem { Text = "Second", Value = "Second" });
+            freqRelativeIntervals.Add(new SelectListItem { Text = "Third", Value = "Third" });
+            freqRelativeIntervals.Add(new SelectListItem { Text = "Fourth", Value = "fourth" });
+            freqRelativeIntervals.Add(new SelectListItem { Text = "Last", Value = "Last" });
+
+            return freqRelativeIntervals;
+        }
+
+        public List<SelectListItem> getMonthlyFrequency()
+        {
+            List<SelectListItem> monthlyFrequency = new List<SelectListItem>();
+
+            monthlyFrequency.Add(new SelectListItem { Text = "Monday", Value = "Monday" });
+            monthlyFrequency.Add(new SelectListItem { Text = "Tuesday", Value = "Tuesday" });
+            monthlyFrequency.Add(new SelectListItem { Text = "Wednesday", Value = "Wednesday" });
+            monthlyFrequency.Add(new SelectListItem { Text = "Thursday", Value = "Thursday" });
+            monthlyFrequency.Add(new SelectListItem { Text = "Friday", Value = "Friday" });
+            monthlyFrequency.Add(new SelectListItem { Text = "Saturday", Value = "Suturday" });
+            monthlyFrequency.Add(new SelectListItem { Text = "Sunday", Value = "Sunday" });
+            monthlyFrequency.Add(new SelectListItem { Text = "day", Value = "day" });
+            monthlyFrequency.Add(new SelectListItem { Text = "weekday", Value = "weekday" });
+            monthlyFrequency.Add(new SelectListItem { Text = "weekend day", Value = "weekendday" });
+
+            return monthlyFrequency;
+        }
     }
 }

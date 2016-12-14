@@ -71,7 +71,7 @@ else
          {
              dbServer = ViewBag.ServerName,
              jobID = ViewBag.JobID,
-             scheduleIDID = schedule.ScheduleUID
+             scheduleUID = schedule.ScheduleUID
          },
          new { @class = "btn btn-success" });
 }
@@ -84,7 +84,7 @@ else
         {
             dbServer = ViewBag.ServerName,
             jobID = ViewBag.JobID,
-            stepID = schedule.ScheduleUID
+            scheduleUID = schedule.ScheduleUID
         },
         new { @class = "btn btn-danger" });
 }

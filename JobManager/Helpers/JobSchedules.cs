@@ -6,6 +6,7 @@ using JobManager.Models;
 using Microsoft.SqlServer.Management.Smo;
 using Microsoft.SqlServer.Management.Smo.Agent;
 using System.Data;
+using System.Collections;
 
 namespace JobManager.Helpers
 {
@@ -17,7 +18,7 @@ namespace JobManager.Helpers
             Server dbServer = connection.Connect(serverName);
             Job job = dbServer.JobServer.GetJobByID(jobID);
 
-            List<JobScheduleListModel> steplist = new List<JobScheduleListModel>();
+            List<JobScheduleListModel> schedulelist = new List<JobScheduleListModel>();
 
             string sql = @"SELECT msdb.dbo.sysjobs.job_id AS [JobID]
                              , msdb.dbo.sysjobschedules.schedule_id AS [ScheduleID]
@@ -249,7 +250,7 @@ namespace JobManager.Helpers
 
             foreach (DataRow row in ds.Tables[0].Rows)
             {
-                steplist.Add(new JobScheduleListModel
+                schedulelist.Add(new JobScheduleListModel
                 {
                     ScheduleID = int.Parse(row["ScheduleID"].ToString()),
                     ScheduleUID = Guid.Parse(row["ScheduleUID"].ToString()),
@@ -258,7 +259,7 @@ namespace JobManager.Helpers
                     Description = row["Schedule"].ToString()
                 });
             }
-            return steplist;
+            return schedulelist;
         }
 
         public void deleteSchedule(string serverName, Guid jobID, Guid scheduleUID)
@@ -267,8 +268,57 @@ namespace JobManager.Helpers
             Server dbServer = connection.Connect(serverName);
             Job job = dbServer.JobServer.GetJobByID(jobID);
 
+            JobSchedule schedule = job.JobSchedules[scheduleUID];
+
             job.JobSchedules[scheduleUID].Drop();
             job.JobSchedules.Refresh();
+        }
+
+        public ScheduleDetailsModel getScheduleDetails (string serverName, Guid jobID, Guid scheduleUID)
+        {
+            ConnectSqlServer connection = new ConnectSqlServer();
+            Server dbServer = connection.Connect(serverName);
+            ScheduleDetailsModel schedule = new ScheduleDetailsModel();
+            Job job = dbServer.JobServer.GetJobByID(jobID);
+
+            var jobschedule = job.JobSchedules[scheduleUID];
+
+            schedule.ActiveEndDate = jobschedule.ActiveEndDate;
+            schedule.ActiveEndTimeOfDay = jobschedule.ActiveEndTimeOfDay;
+            schedule.ActiveStartDate = jobschedule.ActiveStartDate;
+            schedule.ActiveStartTimeOfDay = jobschedule.ActiveStartTimeOfDay;
+            schedule.FrequencyInterval = jobschedule.FrequencyInterval;
+            if (jobschedule.FrequencyTypes == FrequencyTypes.Monthly)
+                schedule.MonthlyInterval = jobschedule.FrequencyInterval;
+            schedule.FrequencyRecurrenceFactor = jobschedule.FrequencyRecurrenceFactor;
+            schedule.FrequencyRelativeIntervals = jobschedule.FrequencyRelativeIntervals.ToString();
+            schedule.FrequencySubDayInterval = jobschedule.FrequencySubDayInterval;
+            schedule.FrequencySubDayTypes = jobschedule.FrequencySubDayTypes.ToString();
+            schedule.FrequencyTypes = jobschedule.FrequencyTypes.ToString();
+            schedule.IsEnabled = jobschedule.IsEnabled;
+            schedule.Name = jobschedule.Name;
+            if (jobschedule.FrequencyTypes == FrequencyTypes.Weekly || jobschedule.FrequencyTypes == FrequencyTypes.MonthlyRelative)
+            {
+                WeekDays days = (WeekDays)jobschedule.FrequencyInterval;
+
+                if (days.HasFlag(WeekDays.Sunday))
+                    schedule.Sunday = true;
+                if (days.HasFlag(WeekDays.Monday))
+                    schedule.Monday = true;
+                if (days.HasFlag(WeekDays.Tuesday))
+                    schedule.Tuesday = true;
+                if (days.HasFlag(WeekDays.Wednesday))
+                    schedule.Wednesday = true;
+                if (days.HasFlag(WeekDays.Thursday))
+                    schedule.Thursday = true;
+                if (days.HasFlag(WeekDays.Friday))
+                    schedule.Friday = true;
+                if (days.HasFlag(WeekDays.Saturday))
+                    schedule.Saturday = true;
+            }
+
+
+            return schedule;
         }
     }
 }
