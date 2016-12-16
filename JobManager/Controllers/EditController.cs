@@ -119,11 +119,23 @@ namespace JobManager.Controllers
             PopulateDropDowns dropdown = new PopulateDropDowns();
             ScheduleDetailsModel schedule = new ScheduleDetailsModel();
             List<SelectListItem> frequencyTypes = new List<SelectListItem>();
+            List<SelectListItem> subdayTypes = new List<SelectListItem>();
+            List<SelectListItem> freqRelativeIntervals = new List<SelectListItem>();
+            List<SelectListItem> monthlyFrequency = new List<SelectListItem>();
 
             schedule = jobschedules.getScheduleDetails(dbServer, jobID, scheduleUID);
 
             frequencyTypes = dropdown.getFrequencyTypes();
             ViewBag.FreqTypes = frequencyTypes;
+
+            subdayTypes = dropdown.getSubdayTypes();
+            ViewBag.SubDayTypes = subdayTypes;
+
+            freqRelativeIntervals = dropdown.getFreqRelativeIntervals();
+            ViewBag.FreqRelativeIntervals = freqRelativeIntervals;
+
+            monthlyFrequency = dropdown.getMonthlyFrequency();
+            ViewBag.MonthlyFrequency = monthlyFrequency;
 
             ViewBag.ServerName = dbServer;
             ViewBag.JobID = jobID;

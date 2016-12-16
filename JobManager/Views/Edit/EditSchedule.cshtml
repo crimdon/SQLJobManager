@@ -30,61 +30,58 @@
                 Schedule type
             </div>
             <div class="editor-field form-control-container text-left">
-                @Html.DropDownListFor(m => m.FrequencyTypes, (List<SelectListItem>)ViewBag.FreqTypes, null, new { @onchange = "toggleOptionalDisplay(this.value)", @class = "form-control", @id = "freqtype", @style = "width:300px;" })
+                @Html.DropDownListFor(m => m.ScheduleFrequency, (List<SelectListItem>)ViewBag.FreqTypes, null, new { @onchange = "toggleOptionalDisplay(this.value)", @class = "form-control", @id = "freqtype", @style = "width:300px;" })
             </div>
             <br />
-            <div class="editor-label">
-                Enabled
-            </div>
             <div class="editor-field">
-                @Html.CheckBoxFor(m => m.IsEnabled)
+                Enabled: @Html.CheckBoxFor(m => m.IsEnabled)
             </div>
         </div>
 
         <div id="OneTime" class="section" hidden>
-            <h5>One time</h5>
+            <h4>One time</h4>
             <div class="editor-label">
                 Date
             </div>
             <div class="editor-field">
-                @Html.TextBoxFor(m => m.ActiveStartDate, new { @class = "datepicker" })
+                @Html.TextBoxFor(m => m.OneTimeStartDate, "{0:dd/MM/yyyy}",  new { @class = "datepicker" })
             </div>
             <div class="editor-label">
                 Time
             </div>
             <div class="editor-field">
-                @Html.TextBoxFor(m => m.ActiveStartTimeOfDay, new { @class = "timepicker" })
+                @Html.TextBoxFor(m => m.OneTimeStartTimeOfDay, new { @class = "timepicker" })
             </div>
         </div>
 
         <div id="Daily" class="section" hidden>
-            <h5>Daily</h5>
+            <h4>Daily</h4>
             <div class="editor-label">
                 Recurs every:
             </div>
             <div class="editor-field">
-                @Html.TextBoxFor(m => m.FrequencyInterval, new { @type = "number", @class = "span4", @min = 1 }) day(s)
+                @Html.TextBoxFor(m => m.DailyRecursEvery, new { @type = "number", @class = "span4", @min = 1 }) day(s)
             </div>
         </div>
 
         <div id="Weekly" class="section" hidden>
-            <h5>Weekly</h5>
+            <h4>Weekly</h4>
             <div class="editor-label">
                 Recurs every:
             </div>
             <div class="editor-field">
-                @Html.TextBoxFor(m => m.FrequencyInterval, new { @type = "number", @class = "span4", @min = 1 }) week(s) on
+                @Html.TextBoxFor(m => m.WeeklyRecursEvery, new { @type = "number", @class = "span4", @min = 1 }) week(s) on
             </div>
             <div class="editor-field">
-                <table style="padding:10px;">
+                <table style="padding:10px 10px, 10px, 10px; border-spacing:3px; width:100%">
                     <tr>
-                        <td>@Html.CheckBoxFor(m => m.Monday) Monday</td>
-                        <td>@Html.CheckBoxFor(m => m.Tuesday) Tuesday</td>
-                        <td>@Html.CheckBoxFor(m => m.Wednesday) Wednesday</td>
-                        <td>@Html.CheckBoxFor(m => m.Thursday) Thursday</td>
-                        <td>@Html.CheckBoxFor(m => m.Friday) Friday</td>
-                        <td>@Html.CheckBoxFor(m => m.Saturday) Saturday</td>
-                        <td>@Html.CheckBoxFor(m => m.Sunday) Sunday</td>
+                        <td>@Html.CheckBoxFor(m => m.WeeklyMonday) Monday</td>
+                        <td>@Html.CheckBoxFor(m => m.WeeklyTuesday) Tuesday</td>
+                        <td>@Html.CheckBoxFor(m => m.WeeklyWednesday) Wednesday</td>
+                        <td>@Html.CheckBoxFor(m => m.WeeklyThursday) Thursday</td>
+                        <td>@Html.CheckBoxFor(m => m.WeeklyFriday) Friday</td>
+                        <td>@Html.CheckBoxFor(m => m.WeeklySaturday) Saturday</td>
+                        <td>@Html.CheckBoxFor(m => m.WeeklySunday) Sunday</td>
                     </tr>
                 </table>
             </div>
@@ -92,70 +89,109 @@
 
 
         <div id="Monthly" class="section" hidden>
-            <h5>Monthly</h5>
+            <h4>Monthly</h4>
             <div class="editor-label">
-                Date
+                Day
             </div>
             <div class="editor-field">
-
+                @Html.TextBoxFor(m => m.MonthlyDayNo)
             </div>
             <div class="editor-label">
-                Time
+                of every
             </div>
             <div class="editor-field">
-
+                @Html.TextBoxFor(m => m.MonthlyFrequency) month(s)
             </div>
         </div>
 
         <div id="MonthlyRelative" class="section" hidden>
-            <h5>Monthly from</h5>
+            <h4>Monthly from</h4>
             <div class="editor-label">
-                Date
+                The
             </div>
             <div class="editor-field">
-
+                @Html.DropDownListFor(m => m.MonthlyRelativeFreqSubDayType, (List<SelectListItem>)ViewBag.FreqRelativeIntervals)
             </div>
             <div class="editor-label">
-                Time
+                day
             </div>
             <div class="editor-field">
-
+                @Html.DropDownListFor(m => m.MonthlyRelativeSubFreq, (List<SelectListItem>)ViewBag.MonthlyFrequency)
+            </div>
+            <div class="editor-label">
+                of every
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(m => m.MonthlyRelativeFreq) month(s)
             </div>
         </div>
 
         <div id="DailyFrequency" class="section" hidden>
-            <h5>Daily frequency</h5>
-            <div class="editor-label">
-                Date
-            </div>
+            <h4>Daily frequency</h4>
             <div class="editor-field">
-
+                Occurs once: @Html.CheckBoxFor(m => m.DailyFreqOccursOnce, new { @id = "occursonce" })
             </div>
-            <div class="editor-label">
-                Time
+            <div id="dailyfreqoccursonce" hidden>
+                <div class="editor-label">
+                    Occurs once at:
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(m => m.DailyFreqStartingTime, new { @class = "timepicker" })
+                </div>
             </div>
-            <div class="editor-field">
-
+            <div id="dailyfreqoccursevery" hidden>
+                <div class="editor-label">
+                    Occurs every
+                </div>
+                <div class="editor-field">
+                    <table style="padding:20px 20px, 20px, 20px; border-spacing:5px;">
+                        <tr>
+                            <td>@Html.TextBoxFor(m => m.DailyFreqOccursEvery)</td>
+                            <td>@Html.DropDownListFor(m => m.DailyFreqSubDay, (List<SelectListItem>)ViewBag.SubDayTypes)</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="editor-label">
+                    Starting at
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(m => m.DailyFreqStartingTime, new { @class = "timepicker" })
+                </div>
+                <div class="editor-label">
+                    Ending at
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(m => m.DailyFreqEndingTime, new { @class = "timepicker" })
+                </div>
             </div>
         </div>
 
         <div id="Duration" class="section" hidden>
-            <h5>Duration</h5>
+            <h4>Duration</h4>
             <div class="editor-label">
                 Start Date
             </div>
             <div class="editor-field">
-                @Html.TextBoxFor(m => m.ActiveStartDate, new { @class = "datepicker" })
+                @Html.TextBoxFor(m => m.DurationStartDate, "{0:dd/MM/yyyy}", new { @class = "datepicker" })
             </div>
             <div class="editor-label">
                 End Date
             </div>
             <div class="editor-field">
-                @Html.CheckBox("NoEndDate") No end date
+                No end date: @Html.CheckBoxFor(m => m.DurationNoEndDate, new { @id = "durationnoenddate" })
             </div>
-            <div class="editor-field" id="enddate">
-                @Html.TextBoxFor(m => m.ActiveEndDate, new { @class = "datepicker" })
+            <br />
+            <div id="durationenddate" hidden>
+                <div class="editor-field">
+                    @Html.TextBoxFor(m => m.DurationEndDate, "{0:dd/MM/yyyy}", new { @class = "datepicker" })
+                </div>
             </div>
+        </div>
+
+        <div hidden>
+            @Html.HiddenFor(m => m.ServerName)
+            @Html.HiddenFor(m => m.JobID)
+            @Html.HiddenFor(m => m.ScheduleUID)
         </div>
 
         <div class="btn-block">
@@ -171,26 +207,42 @@
 
 @section Scripts {
     <script>
-        $(document).ready(function () {
+        $(document).ready(function (e) {
+
+            // Set up initial form settings
             toggleOptionalDisplay($("#freqtype").val());
+            toggleFreqType();
+            toggleDurationEndDate();
+
+            // Date and Time pickers
+            $(".datepicker").datepicker({ dateFormat: 'dd-mm-yy', showButtonPanel: true });
+            $(".timepicker").timepicker({ timeFormat: 'hh:mm:ss' });
+            
+            // On change events
+            $("#occursonce").change(function () { toggleFreqType(); });
+            $("#durationnoenddate").change(function () { toggleDurationEndDate(); });
         })
-    </script>
 
-    <script>
-        $(document).ready(function () {
-            $('.datepicker').datepicker({ dateFormat: 'dd-mm-yy', showButtonPanel: true });
-        });
-    </script>
+        function toggleFreqType() {
+            //var e = $("#occursonce").is(':checked');
+            if ($("#occursonce").is(':checked')) {
+                $('#dailyfreqoccursonce').show();
+                $('#dailyfreqoccursevery').hide();
+            }
+            else {
+                $('#dailyfreqoccursonce').hide();
+                $('#dailyfreqoccursevery').show();
+            }
+        }
 
-    <script>
-        $(document).ready(function () {
-            $('.timepicker').timepicker({timeFormat: 'hh:mm:ss'});
-        });
-    </script>
+        function toggleDurationEndDate() {
+            //var e = $("#durationnoenddate").is(':checked');
+            if ($("#durationnoenddate").is(':checked'))
+                $('#durationenddate').hide();
+            else
+                $('#durationenddate').show();
+        }
 
-
-
-    <script>
         function toggleOptionalDisplay(e) {
             if (e == "AutoStart" || e == "OnIdle") {
                 $('#OneTime').hide();
