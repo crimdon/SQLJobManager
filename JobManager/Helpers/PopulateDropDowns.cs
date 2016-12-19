@@ -93,9 +93,9 @@ namespace JobManager.Helpers
             monthlyFrequency.Add(new SelectListItem { Text = "Friday", Value = "Friday" });
             monthlyFrequency.Add(new SelectListItem { Text = "Saturday", Value = "Suturday" });
             monthlyFrequency.Add(new SelectListItem { Text = "Sunday", Value = "Sunday" });
-            monthlyFrequency.Add(new SelectListItem { Text = "day", Value = "day" });
-            monthlyFrequency.Add(new SelectListItem { Text = "weekday", Value = "weekday" });
-            monthlyFrequency.Add(new SelectListItem { Text = "weekend day", Value = "weekendday" });
+            monthlyFrequency.Add(new SelectListItem { Text = "day", Value = "EveryDay" });
+            monthlyFrequency.Add(new SelectListItem { Text = "weekday", Value = "WeekDays" });
+            monthlyFrequency.Add(new SelectListItem { Text = "weekend day", Value = "WeekEnds" });
 
             return monthlyFrequency;
         }

@@ -144,14 +144,13 @@ namespace JobManager.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditSchedule (JobSchedule schedule)
+        public ActionResult EditSchedule(ScheduleDetailsModel schedule)
         {
             JobSchedules jobschedules = new JobSchedules();
+            jobschedules.saveScheduleDetails(schedule);
 
-
-
-            ViewBag.ServerName = ViewBag.ServerName;
-            ViewBag.JobID = ViewBag.JobID;
+            ViewBag.ServerName = schedule.ServerName;
+            ViewBag.JobID = schedule.JobID;
             return RedirectToAction("Schedules", "Edit", new { dbServer = ViewBag.ServerName, jobID = ViewBag.JobID });
         }
     }

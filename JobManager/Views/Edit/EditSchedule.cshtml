@@ -14,7 +14,7 @@
 
 <link href="@Url.Content("~/Content/jquery-ui-timepicker-addon.css")" rel="stylesheet">
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("EditSchedule", "Edit", FormMethod.Post, new { @id = "editForm"}))
 {
     <fieldset>
         <div class="section">
@@ -30,7 +30,7 @@
                 Schedule type
             </div>
             <div class="editor-field form-control-container text-left">
-                @Html.DropDownListFor(m => m.ScheduleFrequency, (List<SelectListItem>)ViewBag.FreqTypes, null, new { @onchange = "toggleOptionalDisplay(this.value)", @class = "form-control", @id = "freqtype", @style = "width:300px;" })
+                @Html.DropDownListFor(m => m.ScheduleFrequency, (List<SelectListItem>)ViewBag.FreqTypes, null, new { @id = "freqtype", @style = "width:100px;" })
             </div>
             <br />
             <div class="editor-field">
@@ -86,7 +86,6 @@
                 </table>
             </div>
         </div>
-
 
         <div id="Monthly" class="section" hidden>
             <h4>Monthly</h4>
@@ -195,7 +194,7 @@
         </div>
 
         <div class="btn-block">
-            <input type="submit" value="Update Schedule" class="myButton" />
+            <input id="btnSubmit" type="submit" value="Update Schedule" class="myButton" />
         </div>
     </fieldset>
 }
@@ -209,8 +208,11 @@
     <script>
         $(document).ready(function (e) {
 
+
+            $('#btnSubmit').on('click', function () { $('#editForm').submit(); });
+
             // Set up initial form settings
-            toggleOptionalDisplay($("#freqtype").val());
+            toggleScheduleType();
             toggleFreqType();
             toggleDurationEndDate();
 
@@ -219,9 +221,10 @@
             $(".timepicker").timepicker({ timeFormat: 'hh:mm:ss' });
             
             // On change events
+            $("#freqtype").change(function () { toggleScheduleType(); });
             $("#occursonce").change(function () { toggleFreqType(); });
             $("#durationnoenddate").change(function () { toggleDurationEndDate(); });
-        })
+        });
 
         function toggleFreqType() {
             //var e = $("#occursonce").is(':checked');
@@ -243,7 +246,8 @@
                 $('#durationenddate').show();
         }
 
-        function toggleOptionalDisplay(e) {
+        function toggleScheduleType() {
+            var e = $("#freqtype").val();
             if (e == "AutoStart" || e == "OnIdle") {
                 $('#OneTime').hide();
                 $('#Daily').hide();

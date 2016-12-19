@@ -7,6 +7,7 @@ using Microsoft.SqlServer.Management.Smo;
 using Microsoft.SqlServer.Management.Smo.Agent;
 using System.Data;
 using System.Collections;
+using System.Globalization;
 
 namespace JobManager.Helpers
 {
@@ -290,8 +291,6 @@ namespace JobManager.Helpers
             schedule.JobID = jobID;
             schedule.ScheduleUID = scheduleUID;
 
-            WeekDays days = (WeekDays)jobschedule.FrequencyInterval;
-
             switch (jobschedule.FrequencyTypes.ToString())
             {
                 case "OneTime":
@@ -304,7 +303,8 @@ namespace JobManager.Helpers
                     break;
 
                 case "Weekly":
-                    schedule.WeeklyRecursEvery = jobschedule.FrequencyInterval;
+                    WeekDays days = (WeekDays)jobschedule.FrequencyInterval;
+                    schedule.WeeklyRecursEvery = jobschedule.FrequencyRecurrenceFactor;
                     if (days.HasFlag(WeekDays.Sunday))
                         schedule.WeeklySunday = true;
                     if (days.HasFlag(WeekDays.Monday))
@@ -322,32 +322,34 @@ namespace JobManager.Helpers
                     break;
 
                 case "Monthly":
-                    schedule.MonthlyFrequency = jobschedule.FrequencyInterval;
+                    schedule.MonthlyDayNo = jobschedule.FrequencyInterval;
+                    schedule.MonthlyFrequency = jobschedule.FrequencyRecurrenceFactor;
                     break;
 
                 case "MonthlyRelative":
-                    schedule.MonthlyRelativeFreq = jobschedule.FrequencyInterval;
-                    schedule.MonthlyRelativeFreqSubDayType = jobschedule.FrequencySubDayTypes.ToString();
-                    if (days.HasFlag(WeekDays.Sunday))
+                    MonthlyRelativeWeekDays monthdays = (MonthlyRelativeWeekDays)jobschedule.FrequencyInterval;
+                    schedule.MonthlyRelativeFreq = jobschedule.FrequencyRecurrenceFactor;
+                    schedule.MonthlyRelativeFreqSubDayType = jobschedule.FrequencyRelativeIntervals.ToString();
+                    if (monthdays.HasFlag(MonthlyRelativeWeekDays.Sunday))
                         schedule.MonthlyRelativeSubFreq = "Sunday";
-                    if (days.HasFlag(WeekDays.Monday))
+                    if (monthdays.HasFlag(MonthlyRelativeWeekDays.Monday))
                         schedule.MonthlyRelativeSubFreq = "Monday";
-                    if (days.HasFlag(WeekDays.Tuesday))
+                    if (monthdays.HasFlag(MonthlyRelativeWeekDays.Tuesday))
                         schedule.MonthlyRelativeSubFreq = "Tuesday";
-                    if (days.HasFlag(WeekDays.Wednesday))
+                    if (monthdays.HasFlag(MonthlyRelativeWeekDays.Wednesday))
                         schedule.MonthlyRelativeSubFreq = "Wednesday";
-                    if (days.HasFlag(WeekDays.Thursday))
+                    if (monthdays.HasFlag(MonthlyRelativeWeekDays.Thursday))
                         schedule.MonthlyRelativeSubFreq = "Thursday";
-                    if (days.HasFlag(WeekDays.Friday))
+                    if (monthdays.HasFlag(MonthlyRelativeWeekDays.Friday))
                         schedule.MonthlyRelativeSubFreq = "Friday";
-                    if (days.HasFlag(WeekDays.Saturday))
+                    if (monthdays.HasFlag(MonthlyRelativeWeekDays.Saturday))
                         schedule.MonthlyRelativeSubFreq = "Saturday";
-                    if (days.HasFlag(WeekDays.WeekDays))
-                        schedule.MonthlyRelativeSubFreq = "weekday";
-                    if (days.HasFlag(WeekDays.WeekEnds))
-                        schedule.MonthlyRelativeSubFreq = "weekendday";
-                    if (days.HasFlag(WeekDays.EveryDay))
-                        schedule.MonthlyRelativeSubFreq = "day";
+                    if (monthdays.HasFlag(MonthlyRelativeWeekDays.WeekDays))
+                        schedule.MonthlyRelativeSubFreq = "WeekDays";
+                    if (monthdays.HasFlag(MonthlyRelativeWeekDays.WeekEnds))
+                        schedule.MonthlyRelativeSubFreq = "WeekEnds";
+                    if (monthdays.HasFlag(MonthlyRelativeWeekDays.EveryDay))
+                        schedule.MonthlyRelativeSubFreq = "EveryDay";
                     break;
                 
                 default:
@@ -378,7 +380,157 @@ namespace JobManager.Helpers
             Job job = dbServer.JobServer.GetJobByID(schedule.JobID);
             JobSchedule scheduleToUpdate = job.JobSchedules[schedule.ScheduleUID];
 
+            if (schedule.Name != scheduleToUpdate.Name)
+            {
+                scheduleToUpdate.Rename(schedule.Name);
+                scheduleToUpdate.Refresh();
+            }
 
+            scheduleToUpdate.IsEnabled = schedule.IsEnabled;
+
+            switch(schedule.ScheduleFrequency)
+            {
+                case "OneTime":
+                    scheduleToUpdate.FrequencyTypes = FrequencyTypes.OneTime;
+                    scheduleToUpdate.ActiveStartDate = schedule.OneTimeStartDate;
+                    scheduleToUpdate.ActiveStartTimeOfDay = schedule.OneTimeStartTimeOfDay;
+                    break;
+
+                case "Daily":
+                    scheduleToUpdate.FrequencyTypes = FrequencyTypes.Daily;
+                    scheduleToUpdate.FrequencyInterval = schedule.DailyRecursEvery;
+                    scheduleToUpdate = setCommon(scheduleToUpdate, schedule);
+                    break;
+
+                case "Weekly":
+                    scheduleToUpdate.FrequencyTypes = FrequencyTypes.Weekly;
+                    scheduleToUpdate.FrequencyRecurrenceFactor = schedule.WeeklyRecursEvery;
+                    scheduleToUpdate.FrequencyInterval = 0;
+                    if (schedule.WeeklySunday)
+                        scheduleToUpdate.FrequencyInterval = +1;
+                    if (schedule.WeeklyMonday)
+                        scheduleToUpdate.FrequencyInterval = +2;
+                    if (schedule.WeeklyTuesday)
+                        scheduleToUpdate.FrequencyInterval = +4;
+                    if (schedule.WeeklyWednesday)
+                        scheduleToUpdate.FrequencyInterval = +8;
+                    if (schedule.WeeklyThursday)
+                        scheduleToUpdate.FrequencyInterval = +16;
+                    if (schedule.WeeklyFriday)
+                        scheduleToUpdate.FrequencyInterval = +32;
+                    if (schedule.WeeklySaturday)
+                        scheduleToUpdate.FrequencyInterval = +64;
+                    scheduleToUpdate = setCommon(scheduleToUpdate, schedule);
+                    break;
+
+                case "Monthly":
+                    scheduleToUpdate.FrequencyTypes = FrequencyTypes.Monthly;
+                    scheduleToUpdate.FrequencyRecurrenceFactor = schedule.MonthlyFrequency;
+                    scheduleToUpdate.FrequencyInterval = schedule.MonthlyDayNo;
+                    scheduleToUpdate = setCommon(scheduleToUpdate, schedule);
+                    break;
+
+                case "MonthlyRelative":
+                    scheduleToUpdate.FrequencyTypes = FrequencyTypes.MonthlyRelative;
+                    if (schedule.MonthlyRelativeSubFreq == "Sunday")
+                        scheduleToUpdate.FrequencyInterval = 1;
+                    if (schedule.MonthlyRelativeSubFreq == "Monday")
+                        scheduleToUpdate.FrequencyInterval = 2;
+                    if (schedule.MonthlyRelativeSubFreq == "Tuesday")
+                        scheduleToUpdate.FrequencyInterval = 3;
+                    if (schedule.MonthlyRelativeSubFreq == "Wednesday")
+                        scheduleToUpdate.FrequencyInterval = 4;
+                    if (schedule.MonthlyRelativeSubFreq == "Thursday")
+                        scheduleToUpdate.FrequencyInterval = 5;
+                    if (schedule.MonthlyRelativeSubFreq == "Friday")
+                        scheduleToUpdate.FrequencyInterval = 6;
+                    if (schedule.MonthlyRelativeSubFreq == "Saturday")
+                        scheduleToUpdate.FrequencyInterval = 7;
+                    if (schedule.MonthlyRelativeSubFreq == "Weekdays")
+                        scheduleToUpdate.FrequencyInterval = 9;
+                    if (schedule.MonthlyRelativeSubFreq == "WeekEnds")
+                        scheduleToUpdate.FrequencyInterval = 10;
+                    if (schedule.MonthlyRelativeSubFreq == "EveryDay")
+                        scheduleToUpdate.FrequencyInterval = 8;
+                    switch(schedule.MonthlyRelativeSubFreq)
+                    {
+                        case "First":
+                            scheduleToUpdate.FrequencyRelativeIntervals = FrequencyRelativeIntervals.First;
+                            break;
+                        case "Second":
+                            scheduleToUpdate.FrequencyRelativeIntervals = FrequencyRelativeIntervals.Second;
+                            break;
+                        case "Third":
+                            scheduleToUpdate.FrequencyRelativeIntervals = FrequencyRelativeIntervals.Third;
+                            break;
+                        case "Fourth":
+                            scheduleToUpdate.FrequencyRelativeIntervals = FrequencyRelativeIntervals.Fourth;
+                            break;
+                        case "Last":
+                            scheduleToUpdate.FrequencyRelativeIntervals = FrequencyRelativeIntervals.Last;
+                            break;
+                    }
+                    scheduleToUpdate.FrequencyRecurrenceFactor = schedule.MonthlyRelativeFreq;
+                    scheduleToUpdate = setCommon(scheduleToUpdate, schedule);
+                    break;
+
+                case "AutoStart":
+                    scheduleToUpdate.FrequencyTypes = FrequencyTypes.AutoStart;
+                    scheduleToUpdate.FrequencyInterval = 0;
+                    scheduleToUpdate.FrequencyRecurrenceFactor = 0;
+                    scheduleToUpdate.FrequencyRelativeIntervals = 0;
+                    scheduleToUpdate.FrequencySubDayInterval = 0;
+                    scheduleToUpdate.FrequencySubDayTypes = FrequencySubDayTypes.Unknown;
+                    break;
+
+                case "OnIdle":
+                    scheduleToUpdate.FrequencyTypes = FrequencyTypes.OneTime;
+                    scheduleToUpdate.FrequencyInterval = 0;
+                    scheduleToUpdate.FrequencyRecurrenceFactor = 0;
+                    scheduleToUpdate.FrequencyRelativeIntervals = 0;
+                    scheduleToUpdate.FrequencySubDayInterval = 0;
+                    scheduleToUpdate.FrequencySubDayTypes = FrequencySubDayTypes.Unknown;
+                    break;
+
+            }
+
+            scheduleToUpdate.Alter();
+            scheduleToUpdate.Refresh();
+        }
+
+        private JobSchedule setCommon (JobSchedule scheduleToUpdate, ScheduleDetailsModel schedule)
+        {
+            scheduleToUpdate.ActiveStartTimeOfDay = schedule.DailyFreqStartingTime;
+            if (schedule.DailyFreqOccursOnce)
+            {
+                scheduleToUpdate.ActiveEndTimeOfDay = TimeSpan.ParseExact("23:59:59", "hh\\:mm\\:ss", CultureInfo.InvariantCulture);
+                scheduleToUpdate.FrequencySubDayTypes = FrequencySubDayTypes.Once;
+            }
+            else
+            {
+                scheduleToUpdate.ActiveEndTimeOfDay = schedule.DailyFreqEndingTime;
+                scheduleToUpdate.FrequencySubDayInterval = schedule.DailyFreqOccursEvery;
+                switch (schedule.DailyFreqSubDay)
+                {
+                    case "hour":
+                        scheduleToUpdate.FrequencySubDayTypes = FrequencySubDayTypes.Hour;
+                        break;
+                    case "minute":
+                        scheduleToUpdate.FrequencySubDayTypes = FrequencySubDayTypes.Minute;
+                        break;
+                    case "second":
+                        scheduleToUpdate.FrequencySubDayTypes = FrequencySubDayTypes.Second;
+                        break;
+                }
+            }
+            scheduleToUpdate.ActiveStartTimeOfDay = schedule.DailyFreqStartingTime;
+            scheduleToUpdate.ActiveStartDate = schedule.DurationStartDate;
+            if (schedule.DurationNoEndDate)
+                scheduleToUpdate.ActiveEndDate = DateTime.MaxValue;
+            else
+                scheduleToUpdate.ActiveEndDate = schedule.DurationEndDate;
+
+            return scheduleToUpdate;
         }
     }
 }
