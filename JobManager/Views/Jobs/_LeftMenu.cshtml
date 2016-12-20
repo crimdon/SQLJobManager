@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<JobManager.Models.ServerConfig>
+
+@{
     ViewBag.Title = "Server Menu";
 }
 
@@ -9,8 +11,8 @@
 <br />
 
 <ul class="nav nav-tabs nav-stacked">
-    @foreach (JobManager.Models.IServers item in Model)
+    @foreach (var item in Model)
     {
-        <li>@Html.ActionLink(item.ServerName, "Summary", "Jobs", new { dbServer = item.ServerName }, null)</li>
+        <li>@Html.ActionLink(item.ServerName, "Index", "Jobs", new { dbServer = item.ServerName }, null)</li>
     }
 </ul>

@@ -5,6 +5,7 @@ using System.Data;
 using System.Globalization;
 using JobManager.Models;
 using System.Linq;
+using JobManager.DAL;
 
 namespace JobManager.Helpers
 {
@@ -17,8 +18,9 @@ namespace JobManager.Helpers
         private bool runable;
         public List<JobSummaryModel> getJobs(string selectedServer = null)
         {
-            List<IServers> servers = GetConfig.GetServers();
-
+            ConfigContext db = new ConfigContext();
+            List<ServerConfig> servers = new List<ServerConfig>();
+            servers = db.ServerConfiguration.ToList();
 
             List<JobSummaryModel> joblist = new List<JobSummaryModel>();
 

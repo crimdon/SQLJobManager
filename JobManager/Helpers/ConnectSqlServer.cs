@@ -1,47 +1,46 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.SqlServer.Management.Smo;
+using JobManager.DAL;
+using JobManager.Models;
 
 namespace JobManager.Helpers
 {
     public class ConnectSqlServer
     {
-        public Server Connect(string SqlServer, bool Connection = false)
+        public Server Connect(string SqlServer)
         {
+            ConfigContext db = new ConfigContext();
             try
             {
-                Server server = new Server(SqlServer);
-                if (Connection)
+                ServerConfig serverConfig = db.ServerConfiguration.FirstOrDefault(m => m.ServerName == SqlServer);
+                if (serverConfig == null)
                 {
-                    server.ConnectionContext.ConnectTimeout = 2;
+                    throw new Exception("Server not found in configuration");
                 }
-                else
+                Server server = new Server(serverConfig.ServerName);
+                server.ConnectionContext.ConnectTimeout = 3;
+                server.ConnectionContext.ApplicationName = "Index Manager";
+                switch (serverConfig.AuthenticationType.ToString())
                 {
-                    server.ConnectionContext.ConnectTimeout = 3;
+                    case "SQL":
+                        server.ConnectionContext.LoginSecure = false;
+                        server.ConnectionContext.Login = serverConfig.UserName;
+                        server.ConnectionContext.Password = serverConfig.Password;
+                        break;
+                    case "Windows":
+                        server.ConnectionContext.LoginSecure = true;
+                        server.ConnectionContext.ConnectAsUser = true;
+                        server.ConnectionContext.ConnectAsUserName = serverConfig.UserName;
+                        server.ConnectionContext.ConnectAsUserPassword = serverConfig.Password;
+                        break;
                 }
-                server.ConnectionContext.ApplicationName = "DBA Tools";
+                string cs = server.ConnectionContext.ConnectionString.ToString(); 
                 server.ConnectionContext.Connect();
 
                 if (!server.ConnectionContext.FixedServerRoles.ToString().Any("SysAdmin".Contains))
                 {
                     throw new Exception("User is not a member of SysAdmin");
-                }
-
-                if (!Connection)
-                {
-                    if (server.VersionMajor == 9 || server.VersionMajor == 10)
-                    {
-                        // 2005 and 2008
-                        server.SetDefaultInitFields(typeof(Database), "ReplicationOptions", "BrokerEnabled", "Collation", "CompatibilityLevel", "CreateDate", "ID", "IsAccessible", "IsFullTextEnabled", "IsMirroringEnabled", "IsUpdateable", "LastBackupDate", "LastDifferentialBackupDate", "LastLogBackupDate", "Name", "Owner", "PrimaryFilePath", "ReadOnly", "RecoveryModel", "Status", "Trustworthy", "Version");
-                        server.SetDefaultInitFields(typeof(Login), "AsymmetricKey", "Certificate", "CreateDate", "Credential", "DateLastModified", "DefaultDatabase", "DenyWindowsLogin", "ID", "IsDisabled", "IsLocked", "IsPasswordExpired", "IsSystemObject", "Language", "LanguageAlias", "LoginType", "MustChangePassword", "Name", "PasswordExpirationEnabled", "PasswordPolicyEnforced", "Sid", "WindowsLoginAccessType");
-                    }
-
-                    else
-                    {
-                        // 2012 and above
-                        server.SetDefaultInitFields(typeof(Database), "ReplicationOptions", "ActiveConnections", "AvailabilityDatabaseSynchronizationState", "AvailabilityGroupName", "BrokerEnabled", "Collation", "CompatibilityLevel", "ContainmentType", "CreateDate", "ID", "IsAccessible", "IsFullTextEnabled", "IsMirroringEnabled", "IsUpdateable", "LastBackupDate", "LastDifferentialBackupDate", "LastLogBackupDate", "Name", "Owner", "PrimaryFilePath", "ReadOnly", "RecoveryModel", "Status", "Trustworthy", "Version");
-                        server.SetDefaultInitFields(typeof(Login), "AsymmetricKey", "Certificate", "CreateDate", "Credential", "DateLastModified", "DefaultDatabase", "DenyWindowsLogin", "ID", "IsDisabled", "IsLocked", "IsPasswordExpired", "IsSystemObject", "Language", "LanguageAlias", "LoginType", "MustChangePassword", "Name", "PasswordExpirationEnabled", "PasswordHashAlgorithm", "PasswordPolicyEnforced", "Sid", "WindowsLoginAccessType");
-                    }
                 }
 
                 return server;

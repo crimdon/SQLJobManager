@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using JobManager.Helpers;
 using JobManager.Models;
+using JobManager.DAL;
+using System.Linq;
 
 namespace JobManager.Controllers
 {
@@ -29,9 +31,8 @@ namespace JobManager.Controllers
 
         public PartialViewResult _LeftMenu()
         {
-            List<IServers> servers = new List<IServers>();
-            servers = GetConfig.GetServers();
-            return PartialView(servers);
+            ConfigContext db = new ConfigContext();
+            return PartialView(db.ServerConfiguration.ToList());
         }
     }
 }
