@@ -191,6 +191,7 @@
     <Compile Include="Models\JobScheduleModel.cs" />
     <Compile Include="Models\JobStepListModel.cs" />
     <Compile Include="Models\JobSummaryModel.cs" />
+    <Compile Include="Models\EditableCategories.cs" />
     <Compile Include="Models\ScheduleDetailsModel.cs" />
     <Compile Include="Models\ServerConfig.cs" />
     <Compile Include="Models\StepDetailsModel.cs" />
@@ -252,10 +253,14 @@
     <Content Include="Scripts\gridmvc.js" />
     <Content Include="Scripts\gridmvc.lang.ru.js" />
     <Content Include="Scripts\gridmvc.min.js" />
-    <Content Include="Views\Configuration\Create.cshtml" />
-    <Content Include="Views\Configuration\Delete.cshtml" />
-    <Content Include="Views\Configuration\Details.cshtml" />
-    <Content Include="Views\Configuration\Edit.cshtml" />
+    <Content Include="Views\Configuration\CreateServer.cshtml" />
+    <Content Include="Views\Configuration\DeleteServer.cshtml" />
+    <Content Include="Views\Configuration\EditServer.cshtml" />
+    <Content Include="Views\Configuration\_ListServers.cshtml" />
+    <Content Include="Views\Configuration\CreateCategory.cshtml" />
+    <Content Include="Views\Configuration\DeleteCategory.cshtml" />
+    <Content Include="Views\Configuration\EditCategory.cshtml" />
+    <Content Include="Views\Configuration\_ListCategories.cshtml" />
     <Content Include="Views\Configuration\Index.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />

@@ -21,6 +21,7 @@ namespace JobManager.Models
         public bool Scheduled { get; set; }
         public string Description { get; set; }
         public string Owner { get; set; }
+        public bool Editable { get; set; }
 
     }
 }

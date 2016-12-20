@@ -59,7 +59,7 @@ else
 
 @helper RenderEditButton(JobSummaryModel jobs)
 {
-if (jobs.Runable && jobs.Status == "Idle")
+if (jobs.Editable && jobs.Status == "Idle")
 {
         @Html.ActionLink("Edit Job", "General", "Edit",
         new

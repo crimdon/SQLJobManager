@@ -16,11 +16,15 @@ namespace JobManager.Helpers
         private DateTime lastRun;
         private DateTime nextRun;
         private bool runable;
+        private bool editable;
         public List<JobSummaryModel> getJobs(string selectedServer = null)
         {
             ConfigContext db = new ConfigContext();
             List<ServerConfig> servers = new List<ServerConfig>();
             servers = db.ServerConfiguration.ToList();
+
+            List<EditableCategories> editableCategories = new List<EditableCategories>();
+            editableCategories = db.EditableCategories.ToList();
 
             List<JobSummaryModel> joblist = new List<JobSummaryModel>();
 
@@ -110,6 +114,15 @@ namespace JobManager.Helpers
                         else
                             runable = false;
 
+                        editable = true;
+                        string categoryName = row["category"].ToString();
+                        EditableCategories editableCategory = new EditableCategories();
+                        editableCategory =  db.EditableCategories.FirstOrDefault(m =>  m.CategoryName == categoryName);
+                        if (editableCategory == null)
+                            editableCategory = new EditableCategories() { CategoryName = "Unknown", Editable = true };
+                        if (!editableCategory.Editable)
+                            editable = false;
+
                         joblist.Add(new JobSummaryModel
                         {
                             JobID = Guid.Parse(row["job_id"].ToString()),
@@ -124,7 +137,8 @@ namespace JobManager.Helpers
                             Runable = runable,
                             Scheduled = Convert.ToBoolean(row["has_schedule"]),
                             Description = row["description"].ToString(),
-                            Owner = row["owner"].ToString()
+                            Owner = row["owner"].ToString(),
+                            Editable = editable
                         });
                     }
                     dbServer.ConnectionContext.Disconnect();

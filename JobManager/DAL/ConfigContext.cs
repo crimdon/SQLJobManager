@@ -11,6 +11,7 @@ namespace JobManager.DAL
         }
 
         public DbSet<ServerConfig> ServerConfiguration { get; set; }
+        public DbSet<EditableCategories> EditableCategories { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

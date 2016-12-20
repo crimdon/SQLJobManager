@@ -1,45 +1,38 @@
-﻿@model IEnumerable<JobManager.Models.ServerConfig>
-
+﻿
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Configuration</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ServerName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AuthenticationType)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UserName)
-        </th>
-        <th></th>
-    </tr>
+<div class="panel-group" id="accordion">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseServers">
+                    Servers
+                </a>
+            </h4>
+        </div>
+        <div id="collapseServers" class="panel-collapse collapse in">
+            <div class="panel-body">
+                @{Html.RenderAction("_ListServers", "Configuration"); }
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseCategories">
+                    Categories
+                </a>
+            </h4>
+        </div>
+        <div id="collapseCategories" class="panel-collapse collapse">
+            <div class="panel-body">
+                @{Html.RenderAction("_ListCategories", "Configuration"); }
+            </div>
+        </div>
+    </div>
+</div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ServerName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AuthenticationType)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserName)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @*@Html.ActionLink("Details", "Details", new { id=item.Id }) |*@
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
-
-</table>

@@ -15,39 +15,24 @@ namespace JobManager.Controllers
     {
         private ConfigContext db = new ConfigContext();
 
-        // GET: Configuration
         public ActionResult Index()
-        {
-            return View(db.ServerConfiguration.ToList());
-        }
-
-        // GET: Configuration/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ServerConfig serverConfig = db.ServerConfiguration.Find(id);
-            if (serverConfig == null)
-            {
-                return HttpNotFound();
-            }
-            return View(serverConfig);
-        }
-
-        // GET: Configuration/Create
-        public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Configuration/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        public ActionResult _ListServers()
+        {
+            return PartialView(db.ServerConfiguration.ToList());
+        }
+
+        public ActionResult CreateServer()
+        {
+            return View();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,ServerName,AuthenticationType,UserName,Password")] ServerConfig serverConfig)
+        public ActionResult CreateServer([Bind(Include = "Id,ServerName,AuthenticationType,UserName,Password")] ServerConfig serverConfig)
         {
             if (ModelState.IsValid)
             {
@@ -59,8 +44,7 @@ namespace JobManager.Controllers
             return View(serverConfig);
         }
 
-        // GET: Configuration/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult EditServer(int? id)
         {
             if (id == null)
             {
@@ -74,12 +58,9 @@ namespace JobManager.Controllers
             return View(serverConfig);
         }
 
-        // POST: Configuration/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,ServerName,AuthenticationType,UserName,Password")] ServerConfig serverConfig)
+        public ActionResult EditServer([Bind(Include = "Id,ServerName,AuthenticationType,UserName,Password")] ServerConfig serverConfig)
         {
             if (ModelState.IsValid)
             {
@@ -90,8 +71,7 @@ namespace JobManager.Controllers
             return View(serverConfig);
         }
 
-        // GET: Configuration/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult DeleteServer(int? id)
         {
             if (id == null)
             {
@@ -105,13 +85,87 @@ namespace JobManager.Controllers
             return View(serverConfig);
         }
 
-        // POST: Configuration/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("DeleteServer")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteServerConfirmed(int id)
         {
             ServerConfig serverConfig = db.ServerConfiguration.Find(id);
             db.ServerConfiguration.Remove(serverConfig);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult _ListCategories()
+        {
+            return PartialView(db.EditableCategories.ToList());
+        }
+
+        public ActionResult CreateCategory()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateCategory([Bind(Include = "Id,CategoryName,Editable")] EditableCategories editableCategories)
+        {
+            if (ModelState.IsValid)
+            {
+                db.EditableCategories.Add(editableCategories);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(editableCategories);
+        }
+
+        public ActionResult EditCategory(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            EditableCategories editableCategories = db.EditableCategories.Find(id);
+            if (editableCategories == null)
+            {
+                return HttpNotFound();
+            }
+            return View(editableCategories);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditCategory([Bind(Include = "Id,CategoryName,Editable")] EditableCategories editableCategories)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(editableCategories).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(editableCategories);
+        }
+
+        public ActionResult DeleteCategory(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            EditableCategories editableCategories = db.EditableCategories.Find(id);
+            if (editableCategories == null)
+            {
+                return HttpNotFound();
+            }
+            return View(editableCategories);
+        }
+
+        [HttpPost, ActionName("DeleteCategory")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteCategoryConfirmed(int id)
+        {
+            EditableCategories editableCategories = db.EditableCategories.Find(id);
+            db.EditableCategories.Remove(editableCategories);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
