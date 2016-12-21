@@ -2,6 +2,7 @@
 using Microsoft.SqlServer.Management.Smo.Agent;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Web.Mvc;
 
 namespace JobManager.Helpers
@@ -20,6 +21,26 @@ namespace JobManager.Helpers
             }
 
             return databases;
+        }
+
+        public List<SelectListItem> getProxies (string ServerName, AgentSubSystem StepType)
+        {
+            List<SelectListItem> proxies = new List<SelectListItem>();
+            ConnectSqlServer connection = new ConnectSqlServer();
+            Server dbServer = connection.Connect(ServerName);
+
+            foreach (ProxyAccount proxy in dbServer.JobServer.ProxyAccounts)
+            {
+                DataTable dt = proxy.EnumSubSystems();
+                foreach (DataRow row in dt.Rows)
+                {
+                    if (row["Name"].ToString() == StepType.ToString())
+                    {
+                        proxies.Add(new SelectListItem { Text = proxy.Name, Value = proxy.ID.ToString() });
+                    }
+                }
+            }
+            return proxies;
         }
 
         public List<SelectListItem> getActions (string ServerName, Guid JobID, int JobStep)

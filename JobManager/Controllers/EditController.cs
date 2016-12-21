@@ -66,10 +66,14 @@ namespace JobManager.Controllers
             PopulateDropDowns dropdown = new PopulateDropDowns();
             StepDetailsModel step = new StepDetailsModel();
             List<SelectListItem> databaseList = new List<SelectListItem>();
+            List<SelectListItem> proxyList = new List<SelectListItem>();
             List<SelectListItem> actionList = new List<SelectListItem>();
 
             databaseList = dropdown.getDatabases(dbServer);
             ViewBag.DatabaseList = databaseList;
+
+            proxyList = dropdown.getProxies(dbServer, AgentSubSystem.TransactSql);
+            ViewBag.ProxyList = proxyList;
 
             actionList = dropdown.getActions(dbServer, jobID, stepID);
             ViewBag.ActionList = actionList;
@@ -152,6 +156,13 @@ namespace JobManager.Controllers
             ViewBag.ServerName = schedule.ServerName;
             ViewBag.JobID = schedule.JobID;
             return RedirectToAction("Schedules", "Edit", new { dbServer = ViewBag.ServerName, jobID = ViewBag.JobID });
+        }
+
+        protected override void OnException(ExceptionContext filterContext)
+        {
+            filterContext.ExceptionHandled = true;
+            TempData["ErrorMessage"] = filterContext.Exception.Message;
+            filterContext.Result = RedirectToAction("Error", "Home");
         }
     }
 }

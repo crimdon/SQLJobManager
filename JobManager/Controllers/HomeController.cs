@@ -58,6 +58,9 @@ namespace JobManager.Controllers
             ConfigContext db = new ConfigContext();
             return PartialView(db.ServerConfiguration.ToList());
         }
-
+        public ActionResult Error()
+        {
+            return View();
+        }
     }
 }

@@ -16,31 +16,31 @@
         <legend>General</legend>
 
         <div class="editor-label">
-            @Html.LabelFor(m => m.JobName)
+            Job Name
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(m => m.JobName)
+            @Html.TextBoxFor(m => m.JobName, new { style = "width: 300px;" })
         </div>
         <br />
 
         <div class="editor-label">
-            @Html.LabelFor(m => m.Owner)
+            Owner
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(m => m.Owner)
+            @Html.TextBoxFor(m => m.Owner, new { style = "width: 300px;" })
         </div>
         <br />
 
         <div class="editor-label">
-            @Html.LabelFor(m => m.Description)
+            Description
         </div>
         <div class="editor-field">
-            @Html.TextAreaFor(m => m.Description, 5, 50, new { @class = "form-control" })
+            @Html.TextAreaFor(m => m.Description, 5, 300, new { @class = "form-control" })
         </div>
         <br />
 
         <div class="editor-label">
-            @Html.LabelFor(m => m.Enabled)
+            Enabled
         </div>
         <div class="editor-field">
             @Html.CheckBoxFor(m => m.Enabled)
@@ -48,26 +48,26 @@
         <br />
 
         <div class="editor-label">
-            @Html.LabelFor(m => m.Created)
+            Created
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(m => m.Created, new { @readonly="readonly"})
+            @Html.DisplayFor(m => m.Created)
         </div>
         <br />
 
         <div class="editor-label">
-            @Html.LabelFor(m => m.LastExecuted)
+            Last Executed
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(m => m.LastExecuted, new { @readonly = "readonly" })
+            @Html.DisplayFor(m => m.LastExecuted)
         </div>
         <br />
 
         <div class="editor-label">
-            @Html.LabelFor(m => m.LastModified)
+            Last Modified
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(m => m.LastModified, new { @readonly = "readonly" })
+            @Html.DisplayFor(m => m.LastModified)
         </div>
         <br />
 

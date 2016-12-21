@@ -8,7 +8,6 @@ namespace JobManager.Models
 {
     public class JobDetailsModel
     {
-        [Key]
         public Guid JobID { get; set; }
         [Required]
         public string JobName { get; set; }

@@ -34,5 +34,12 @@ namespace JobManager.Controllers
             ConfigContext db = new ConfigContext();
             return PartialView(db.ServerConfiguration.ToList());
         }
+
+        protected override void OnException(ExceptionContext filterContext)
+        {
+            filterContext.ExceptionHandled = true;
+            TempData["ErrorMessage"] = filterContext.Exception.Message;
+            filterContext.Result = RedirectToAction("Error", "Home");
+        }
     }
 }

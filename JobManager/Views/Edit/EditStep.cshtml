@@ -28,28 +28,28 @@
                     <div class="panel-body">
 
                         <div class="editor-label">
-                            @Html.LabelFor(m => m.StepName)
+                            Step Name
                         </div>
                         <div class="editor-field">
-                            @Html.TextBoxFor(m => m.StepName)
+                            @Html.TextBoxFor(m => m.StepName, new { style = "width: 300px;" })
                         </div>
                         <br />
                         <div class="editor-label">
-                            @Html.LabelFor(m => m.RunAs)
+                            Run as
                         </div>
                         <div class="editor-field">
-                            @Html.TextBoxFor(m => m.RunAs)
+                            @Html.DropDownListFor(m => m.RunAs, (List<SelectListItem>)ViewBag.ProxyList, new { style = "width: 300px;" })
                         </div>
                         <br />
                         <div class="editor-label">
-                            @Html.LabelFor(m => m.Database)
+                            Database
                         </div>
                         <div class="editor-field form-control-container text-left">
-                            @Html.DropDownListFor(m => m.Database, (List<SelectListItem>)ViewBag.DatabaseList)
+                            @Html.DropDownListFor(m => m.Database, (List<SelectListItem>)ViewBag.DatabaseList, new { style = "width: 300px;" })
                         </div>
                         <br />
                         <div class="editor-label">
-                            @Html.LabelFor(m => m.Command)
+                            Command
                         </div>
                         <div class="editor-field">
                             @Html.TextAreaFor(m => m.Command, 10, 100, htmlAttributes: new { style = "width: 100%; max-width: 100%;" })
@@ -81,8 +81,6 @@
                         <div class="editor-field form-control-container text-left">
                             @Html.DropDownListFor(m => m.OnFailure, (List<SelectListItem>)ViewBag.ActionList)
                         </div>
-                        <br />
-                        Not done yet
                     </div>
                 </div>
             </div>
