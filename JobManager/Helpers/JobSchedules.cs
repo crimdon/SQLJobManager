@@ -290,6 +290,7 @@ namespace JobManager.Helpers
             schedule.ServerName = serverName;
             schedule.JobID = jobID;
             schedule.ScheduleUID = scheduleUID;
+            schedule = setDefaults(schedule);
 
             switch (jobschedule.FrequencyTypes.ToString())
             {
@@ -512,13 +513,13 @@ namespace JobManager.Helpers
                 scheduleToUpdate.FrequencySubDayInterval = schedule.DailyFreqOccursEvery;
                 switch (schedule.DailyFreqSubDay)
                 {
-                    case "hour":
+                    case "Hour":
                         scheduleToUpdate.FrequencySubDayTypes = FrequencySubDayTypes.Hour;
                         break;
-                    case "minute":
+                    case "Minute":
                         scheduleToUpdate.FrequencySubDayTypes = FrequencySubDayTypes.Minute;
                         break;
-                    case "second":
+                    case "Second":
                         scheduleToUpdate.FrequencySubDayTypes = FrequencySubDayTypes.Second;
                         break;
                 }
@@ -531,6 +532,30 @@ namespace JobManager.Helpers
                 scheduleToUpdate.ActiveEndDate = schedule.DurationEndDate;
 
             return scheduleToUpdate;
+        }
+
+        private ScheduleDetailsModel setDefaults (ScheduleDetailsModel schedule)
+        {
+            schedule.OneTimeStartDate = DateTime.MinValue;
+            schedule.OneTimeStartTimeOfDay = TimeSpan.MinValue;
+            schedule.DailyRecursEvery = 1;
+            schedule.WeeklyRecursEvery = 1;
+            schedule.MonthlyDayNo = 1;
+            schedule.MonthlyFrequency = 1;
+            schedule.MonthlyRelativeFreq = 1;
+            schedule.MonthlyRelativeFreqSubDayType = "First";
+            schedule.MonthlyRelativeSubFreq = "EveryDay";
+            schedule.DailyFreqOccursOnce = true;
+            schedule.DailyFreqOccursOnceTime = TimeSpan.MinValue;
+            schedule.DailyFreqOccursEvery = 1;
+            schedule.DailyFreqSubDay = "hour";
+            schedule.DailyFreqStartingTime = TimeSpan.MinValue;
+            schedule.DailyFreqEndingTime = TimeSpan.ParseExact("23:59:59", "hh\\:mm\\:ss", CultureInfo.InvariantCulture);
+            schedule.DurationStartDate = DateTime.Now.Date;
+            schedule.DurationEndDate = DateTime.MaxValue.Date;
+            schedule.DurationNoEndDate = true;
+
+            return schedule;
         }
     }
 }

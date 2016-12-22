@@ -12,7 +12,6 @@
     }
 }
 
-<link href="@Url.Content("~/Content/jquery-ui-timepicker-addon.css")" rel="stylesheet">
 
 @using (Html.BeginForm("EditSchedule", "Edit", FormMethod.Post, new { @id = "editForm"}))
 {
@@ -24,17 +23,20 @@
             </div>
             <div class="editor-field">
                 @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
             </div>
             <br />
             <div class="editor-label">
                 Schedule type
             </div>
             <div class="editor-field form-control-container text-left">
-                @Html.DropDownListFor(m => m.ScheduleFrequency, (List<SelectListItem>)ViewBag.FreqTypes, null, new { @id = "freqtype", style = "width:300px;" })
+                @Html.DropDownListFor(m => m.ScheduleFrequency, (List<SelectListItem>)ViewBag.FreqTypes, null, new { @id = "freqtype", @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.ScheduleFrequency, "", new { @class = "text-danger" })
             </div>
             <br />
             <div class="editor-field">
                 Enabled: @Html.CheckBoxFor(m => m.IsEnabled)
+                @Html.ValidationMessageFor(m => m.IsEnabled, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -44,13 +46,15 @@
                 Date
             </div>
             <div class="editor-field">
-                @Html.TextBoxFor(m => m.OneTimeStartDate, "{0:dd/MM/yyyy}",  new { @class = "datepicker" })
+                @Html.EditorFor(m => m.OneTimeStartDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.OneTimeStartDate, "", new { @class = "text-danger" })
             </div>
             <div class="editor-label">
                 Time
             </div>
             <div class="editor-field">
-                @Html.TextBoxFor(m => m.OneTimeStartTimeOfDay, new { @class = "timepicker" })
+                @Html.EditorFor(m => m.OneTimeStartTimeOfDay, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.OneTimeStartTimeOfDay, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -66,6 +70,7 @@
                         <td>day(s)</td>
                     </tr>
                 </table>
+                @Html.ValidationMessageFor(m => m.DailyRecursEvery, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -75,7 +80,13 @@
                 Recurs every:
             </div>
             <div class="editor-field">
-                @Html.TextBoxFor(m => m.WeeklyRecursEvery, new { @type = "number", @class = "span4", @min = 1 }) week(s) on
+                <table>
+                    <tr>
+                        <td>@Html.EditorFor(m => m.WeeklyRecursEvery, new { htmlAttributes = new { @class = "form-control" } })</td>
+                        <td>week(s) on</td>
+                    </tr>
+                </table>
+                @Html.ValidationMessageFor(m => m.WeeklyRecursEvery, "", new { @class = "text-danger" })
             </div>
             <div class="editor-field">
                 <table style="padding:10px 10px, 10px, 10px; border-spacing:3px; width:100%">
@@ -98,13 +109,20 @@
                 Day
             </div>
             <div class="editor-field">
-                @Html.TextBoxFor(m => m.MonthlyDayNo)
+                @Html.EditorFor(m => m.MonthlyDayNo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.MonthlyDayNo, "", new { @class = "text-danger" })
             </div>
             <div class="editor-label">
                 of every
             </div>
             <div class="editor-field">
-                @Html.TextBoxFor(m => m.MonthlyFrequency) month(s)
+                <table>
+                    <tr>
+                        <td>@Html.EditorFor(m => m.MonthlyFrequency, new { htmlAttributes = new { @class = "form-control" } })</td>
+                        <td>month(s)</td>
+                    </tr>
+                </table>
+                @Html.ValidationMessageFor(m => m.MonthlyFrequency, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -114,19 +132,27 @@
                 The
             </div>
             <div class="editor-field">
-                @Html.DropDownListFor(m => m.MonthlyRelativeFreqSubDayType, (List<SelectListItem>)ViewBag.FreqRelativeIntervals)
+                @Html.DropDownListFor(m => m.MonthlyRelativeFreqSubDayType, (List<SelectListItem>)ViewBag.FreqRelativeIntervals, null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.MonthlyRelativeFreqSubDayType, "", new { @class = "text-danger" })
             </div>
             <div class="editor-label">
                 day
             </div>
             <div class="editor-field">
-                @Html.DropDownListFor(m => m.MonthlyRelativeSubFreq, (List<SelectListItem>)ViewBag.MonthlyFrequency)
+                @Html.DropDownListFor(m => m.MonthlyRelativeSubFreq, (List<SelectListItem>)ViewBag.MonthlyFrequency, null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.MonthlyRelativeSubFreq, "", new { @class = "text-danger" })
             </div>
             <div class="editor-label">
                 of every
             </div>
             <div class="editor-field">
-                @Html.TextBoxFor(m => m.MonthlyRelativeFreq) month(s)
+                <table>
+                    <tr>
+                        <td>@Html.EditorFor(m => m.MonthlyRelativeFreq, new { htmlAttributes = new { @class = "form-control" } })</td>
+                        <td>month(s)</td>
+                    </tr>
+                </table>
+                @Html.ValidationMessageFor(m => m.MonthlyRelativeFreq, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -140,7 +166,8 @@
                     Occurs once at:
                 </div>
                 <div class="editor-field">
-                    @Html.TextBoxFor(m => m.DailyFreqStartingTime, new { @class = "timepicker" })
+                    @Html.EditorFor(m => m.DailyFreqStartingTime, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.DailyFreqStartingTime, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div id="dailyfreqoccursevery" hidden>
@@ -150,8 +177,12 @@
                 <div class="editor-field">
                     <table style="padding:20px 20px, 20px, 20px; border-spacing:5px;">
                         <tr>
-                            <td>@Html.TextBoxFor(m => m.DailyFreqOccursEvery)</td>
-                            <td>@Html.DropDownListFor(m => m.DailyFreqSubDay, (List<SelectListItem>)ViewBag.SubDayTypes)</td>
+                            <td>@Html.EditorFor(m => m.DailyFreqOccursEvery, new { htmlAttributes = new { @class = "form-control" } })</td>
+                            <td>@Html.DropDownListFor(m => m.DailyFreqSubDay, (List<SelectListItem>)ViewBag.SubDayTypes, null, new { @class = "form-control" })</td>
+                        </tr>
+                        <tr>
+                            <td>@Html.ValidationMessageFor(m => m.DailyFreqOccursEvery, "", new { @class = "text-danger" })</td>
+                            <td>@Html.ValidationMessageFor(m => m.DailyFreqSubDay, "", new { @class = "text-danger" })</td>
                         </tr>
                     </table>
                 </div>
@@ -159,13 +190,15 @@
                     Starting at
                 </div>
                 <div class="editor-field">
-                    @Html.TextBoxFor(m => m.DailyFreqStartingTime, new { @class = "timepicker" })
+                    @Html.EditorFor(m => m.DailyFreqStartingTime, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.DailyFreqStartingTime, "", new { @class = "text-danger" })
                 </div>
                 <div class="editor-label">
                     Ending at
                 </div>
                 <div class="editor-field">
-                    @Html.TextBoxFor(m => m.DailyFreqEndingTime, new { @class = "timepicker" })
+                    @Html.EditorFor(m => m.DailyFreqEndingTime, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.DailyFreqEndingTime, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
@@ -176,7 +209,8 @@
                 Start Date
             </div>
             <div class="editor-field">
-                @Html.TextBoxFor(m => m.DurationStartDate, "{0:dd/MM/yyyy}", new { @class = "datepicker" })
+                @Html.EditorFor(m => m.DurationStartDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.DurationStartDate, "", new { @class = "text-danger" })
             </div>
             <div class="editor-label">
                 End Date
@@ -187,7 +221,8 @@
             <br />
             <div id="durationenddate" hidden>
                 <div class="editor-field">
-                    @Html.TextBoxFor(m => m.DurationEndDate, "{0:dd/MM/yyyy}", new { @class = "datepicker" })
+                    @Html.EditorFor(m => m.DurationEndDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.DurationEndDate, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
@@ -213,17 +248,10 @@
     <script>
         $(document).ready(function (e) {
 
-
-            $('#btnSubmit').on('click', function () { $('#editForm').submit(); });
-
             // Set up initial form settings
             toggleScheduleType();
             toggleFreqType();
             toggleDurationEndDate();
-
-            // Date and Time pickers
-            $(".datepicker").datepicker({ dateFormat: 'dd-mm-yy', showButtonPanel: true });
-            $(".timepicker").timepicker({ timeFormat: 'hh:mm:ss' });
             
             // On change events
             $("#freqtype").change(function () { toggleScheduleType(); });

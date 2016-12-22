@@ -83,9 +83,9 @@ namespace JobManager.Helpers
         {
             List<SelectListItem> subDayTypes = new List<SelectListItem>();
 
-            subDayTypes.Add(new SelectListItem { Text = "hour(s)", Value = "hour" });
-            subDayTypes.Add(new SelectListItem { Text = "minute(s)", Value = "minute" });
-            subDayTypes.Add(new SelectListItem { Text = "second(s)", Value = "second" });
+            subDayTypes.Add(new SelectListItem { Text = "hour(s)", Value = "Hour" });
+            subDayTypes.Add(new SelectListItem { Text = "minute(s)", Value = "Minute" });
+            subDayTypes.Add(new SelectListItem { Text = "second(s)", Value = "Second" });
 
             return subDayTypes;
         }

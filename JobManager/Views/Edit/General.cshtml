@@ -19,7 +19,8 @@
             Job Name
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(m => m.JobName, new { style = "width: 300px;" })
+            @Html.EditorFor(m => m.JobName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => m.JobName, "", new { @class = "text-danger" })
         </div>
         <br />
 
@@ -27,7 +28,8 @@
             Owner
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(m => m.Owner, new { style = "width: 300px;" })
+            @Html.EditorFor(m => m.Owner, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(m => m.Owner, "", new { @class = "text-danger" })
         </div>
         <br />
 
@@ -35,7 +37,8 @@
             Description
         </div>
         <div class="editor-field">
-            @Html.TextAreaFor(m => m.Description, 5, 300, new { @class = "form-control" })
+            @Html.TextAreaFor(m => m.Description, 5, 500, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
         </div>
         <br />
 

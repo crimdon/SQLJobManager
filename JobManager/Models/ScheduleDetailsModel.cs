@@ -21,16 +21,19 @@ namespace JobManager.Models
 
         // OneTime Schedules
         [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime OneTimeStartDate { get; set; }
         [DataType(DataType.Time)]
         public TimeSpan OneTimeStartTimeOfDay { get; set; }
 
 
         // Daily Schedules
+        [Range(typeof(int), "1", "100")]
         public int DailyRecursEvery { get; set; }
 
 
         // Weekly Schedules
+        [Range(typeof(int), "1", "100")]
         public int WeeklyRecursEvery { get; set; }
         public bool WeeklyMonday { get; set; }
         public bool WeeklyTuesday { get; set; }
@@ -42,11 +45,14 @@ namespace JobManager.Models
 
 
         // Monthly Schedules
+        [Range(typeof(int), "1", "31")]
         public int MonthlyDayNo { get; set; }
+        [Range(typeof(int), "1", "99")]
         public int MonthlyFrequency { get; set; }
 
 
         // Monthly Relative Schedules
+        [Range(typeof(int), "1", "99")]
         public int MonthlyRelativeFreq { get; set; }
         public string MonthlyRelativeFreqSubDayType { get; set; }
         public string MonthlyRelativeSubFreq { get; set; }
@@ -57,6 +63,7 @@ namespace JobManager.Models
         public bool DailyFreqOccursOnce { get; set; }
         [DataType(DataType.Time)]
         public TimeSpan DailyFreqOccursOnceTime { get; set; }
+        [Range(typeof(int), "1", "100")]
         public int DailyFreqOccursEvery { get; set; }
         public string DailyFreqSubDay { get; set; }
         [DataType(DataType.Time)]
@@ -67,10 +74,10 @@ namespace JobManager.Models
 
         // duration for Daily, Weekly and Monthly
         [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime DurationStartDate { get; set; }
         [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime DurationEndDate { get; set; }
         public bool DurationNoEndDate { get; set; }
 
@@ -87,7 +94,7 @@ namespace JobManager.Models
                 case "Daily":
                     if (DailyRecursEvery < 1)
                     {
-                        yield return new ValidationResult("Daily frequency invalud");
+                        yield return new ValidationResult("Daily frequency invalid");
                     }
                     break;
             }

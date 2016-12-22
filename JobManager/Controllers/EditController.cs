@@ -34,11 +34,20 @@ namespace JobManager.Controllers
         [HttpPost]
         public ActionResult General(JobDetailsModel jobDetail)
         {
-            JobDetails jobDetails = new JobDetails();
-            jobDetails.saveGeneral(jobDetail);
-            TempData["message"] = "Job successfuly updated";
+            if (ModelState.IsValid)
+            {
+                JobDetails jobDetails = new JobDetails();
+                jobDetails.saveGeneral(jobDetail);
+                TempData["message"] = "Job successfuly updated";
 
-            return RedirectToAction("General", "Edit", new { dbServer = jobDetail.ServerName, jobID = jobDetail.JobID});
+                return RedirectToAction("General", "Edit", new { dbServer = jobDetail.ServerName, jobID = jobDetail.JobID });
+            }
+            else
+            {
+                ViewBag.ServerName = jobDetail.ServerName;
+                ViewBag.JobID = jobDetail.JobID;
+                return View(jobDetail);
+            }
         }
 
         public ActionResult Steps(string dbServer, Guid jobID)
@@ -87,13 +96,21 @@ namespace JobManager.Controllers
         [HttpPost]
         public ActionResult EditStep(StepDetailsModel step)
         {
-            JobSteps jobSteps = new JobSteps();
+            if (ModelState.IsValid)
+            {
+                JobSteps jobSteps = new JobSteps();
+                jobSteps.saveStepDetails(step);
 
-            jobSteps.saveStepDetails(step);
-
-            ViewBag.ServerName = step.ServerName;
-            ViewBag.JobID = step.JobID;
-            return RedirectToAction("Steps", "Edit", new { dbServer = step.ServerName, jobID = step.JobID });
+                ViewBag.ServerName = step.ServerName;
+                ViewBag.JobID = step.JobID;
+                return RedirectToAction("Steps", "Edit", new { dbServer = step.ServerName, jobID = step.JobID });
+            }
+            else
+            {
+                ViewBag.ServerName = step.ServerName;
+                ViewBag.JobID = step.JobID;
+                return View(step);
+            }
         }
 
         public ActionResult Schedules(string dbServer, Guid jobID)
@@ -150,12 +167,22 @@ namespace JobManager.Controllers
         [HttpPost]
         public ActionResult EditSchedule(ScheduleDetailsModel schedule)
         {
-            JobSchedules jobschedules = new JobSchedules();
-            jobschedules.saveScheduleDetails(schedule);
+            if (ModelState.IsValid)
+            {
+                JobSchedules jobschedules = new JobSchedules();
+                jobschedules.saveScheduleDetails(schedule);
 
-            ViewBag.ServerName = schedule.ServerName;
-            ViewBag.JobID = schedule.JobID;
-            return RedirectToAction("Schedules", "Edit", new { dbServer = ViewBag.ServerName, jobID = ViewBag.JobID });
+                ViewBag.ServerName = schedule.ServerName;
+                ViewBag.JobID = schedule.JobID;
+                return RedirectToAction("Schedules", "Edit", new { dbServer = ViewBag.ServerName, jobID = ViewBag.JobID });
+            }
+            else
+            {
+                ViewBag.ServerName = schedule.ServerName;
+                ViewBag.JobID = schedule.JobID;
+
+                return View(schedule);
+            }
         }
 
         protected override void OnException(ExceptionContext filterContext)

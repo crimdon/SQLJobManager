@@ -27,32 +27,36 @@
                 <div id="collapseGeneral" class="panel-collapse collapse in">
                     <div class="panel-body">
 
-                        <div class="editor-label">
+                        <div class="control-label col-md-2">
                             Step Name
                         </div>
-                        <div class="editor-field">
-                            @Html.TextBoxFor(m => m.StepName, new { style = "width: 300px;" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.StepName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => m.StepName, "", new { @class = "text-danger" })
                         </div>
                         <br />
-                        <div class="editor-label">
+                        <div class="control-label col-md-2">
                             Run as
                         </div>
-                        <div class="editor-field">
-                            @Html.DropDownListFor(m => m.RunAs, (List<SelectListItem>)ViewBag.ProxyList, new { style = "width: 300px;" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.RunAs, (List<SelectListItem>)ViewBag.ProxyList, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => m.RunAs, "", new { @class = "text-danger" })
                         </div>
                         <br />
-                        <div class="editor-label">
+                        <div class="control-label col-md-2">
                             Database
                         </div>
-                        <div class="editor-field form-control-container text-left">
-                            @Html.DropDownListFor(m => m.Database, (List<SelectListItem>)ViewBag.DatabaseList, new { style = "width: 300px;" })
+                        <div class="col-md-10 form-control-container text-left">
+                            @Html.DropDownListFor(m => m.Database, (List<SelectListItem>)ViewBag.DatabaseList, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => m.Database, "", new { @class = "text-danger" })
                         </div>
                         <br />
-                        <div class="editor-label">
+                        <div class="control-label col-md-2">
                             Command
                         </div>
-                        <div class="editor-field">
-                            @Html.TextAreaFor(m => m.Command, 10, 100, htmlAttributes: new { style = "width: 100%; max-width: 100%;" })
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(m => m.Command, 10, 100, htmlAttributes: new { @class = "form-control", style = "width: 100%; max-width: 100%;" })
+                            @Html.ValidationMessageFor(m => m.Command, "", new { @class = "text-danger" })
               
                         </div>
                     </div>
@@ -68,18 +72,20 @@
                 </div>
                 <div id="collapseAdvanced" class="panel-collapse collapse">
                     <div class="panel-body">
-                        <div class="editor-label">
+                        <div class="control-label col-md-2">
                             On success action:
                         </div>
-                        <div class="editor-field form-control-container text-left">
-                            @Html.DropDownListFor(m => m.OnSuccess, (List<SelectListItem>)ViewBag.ActionList)
+                        <div class="col-md-10 form-control-container text-left">
+                            @Html.DropDownListFor(m => m.OnSuccess, (List<SelectListItem>)ViewBag.ActionList, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => m.OnSuccess, "", new { @class = "text-danger" })
                         </div>
                         <br />
-                        <div class="editor-label">
+                        <div class="control-label col-md-2">
                             On failure action:
                         </div>
-                        <div class="editor-field form-control-container text-left">
-                            @Html.DropDownListFor(m => m.OnFailure, (List<SelectListItem>)ViewBag.ActionList)
+                        <div class="col-md-10 form-control-container text-left">
+                            @Html.DropDownListFor(m => m.OnFailure, (List<SelectListItem>)ViewBag.ActionList, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => m.OnFailure, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
