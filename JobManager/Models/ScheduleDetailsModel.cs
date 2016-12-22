@@ -24,6 +24,7 @@ namespace JobManager.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime OneTimeStartDate { get; set; }
         [DataType(DataType.Time)]
+        [DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
         public TimeSpan OneTimeStartTimeOfDay { get; set; }
 
 
@@ -62,13 +63,16 @@ namespace JobManager.Models
         // Daily Frequency for Daily, Weekly and Monthly
         public bool DailyFreqOccursOnce { get; set; }
         [DataType(DataType.Time)]
+        [DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
         public TimeSpan DailyFreqOccursOnceTime { get; set; }
         [Range(typeof(int), "1", "100")]
         public int DailyFreqOccursEvery { get; set; }
         public string DailyFreqSubDay { get; set; }
         [DataType(DataType.Time)]
+        [DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
         public TimeSpan DailyFreqStartingTime { get; set; }
         [DataType(DataType.Time)]
+        [DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
         public TimeSpan DailyFreqEndingTime { get; set; }
 
 

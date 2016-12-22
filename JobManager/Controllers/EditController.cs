@@ -107,6 +107,20 @@ namespace JobManager.Controllers
             }
             else
             {
+                PopulateDropDowns dropdown = new PopulateDropDowns();
+                List<SelectListItem> databaseList = new List<SelectListItem>();
+                List<SelectListItem> proxyList = new List<SelectListItem>();
+                List<SelectListItem> actionList = new List<SelectListItem>();
+
+                databaseList = dropdown.getDatabases(step.ServerName);
+                ViewBag.DatabaseList = databaseList;
+
+                proxyList = dropdown.getProxies(step.ServerName, AgentSubSystem.TransactSql);
+                ViewBag.ProxyList = proxyList;
+
+                actionList = dropdown.getActions(step.ServerName, step.JobID, step.StepNo);
+                ViewBag.ActionList = actionList;
+
                 ViewBag.ServerName = step.ServerName;
                 ViewBag.JobID = step.JobID;
                 return View(step);
@@ -178,6 +192,24 @@ namespace JobManager.Controllers
             }
             else
             {
+                PopulateDropDowns dropdown = new PopulateDropDowns();
+                List<SelectListItem> frequencyTypes = new List<SelectListItem>();
+                List<SelectListItem> subdayTypes = new List<SelectListItem>();
+                List<SelectListItem> freqRelativeIntervals = new List<SelectListItem>();
+                List<SelectListItem> monthlyFrequency = new List<SelectListItem>();
+
+                frequencyTypes = dropdown.getFrequencyTypes();
+                ViewBag.FreqTypes = frequencyTypes;
+
+                subdayTypes = dropdown.getSubdayTypes();
+                ViewBag.SubDayTypes = subdayTypes;
+
+                freqRelativeIntervals = dropdown.getFreqRelativeIntervals();
+                ViewBag.FreqRelativeIntervals = freqRelativeIntervals;
+
+                monthlyFrequency = dropdown.getMonthlyFrequency();
+                ViewBag.MonthlyFrequency = monthlyFrequency;
+
                 ViewBag.ServerName = schedule.ServerName;
                 ViewBag.JobID = schedule.JobID;
 

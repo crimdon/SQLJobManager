@@ -40,7 +40,7 @@
             </div>
         </div>
 
-        <div id="OneTime" class="section" hidden>
+        <div id="OneTime" class="section">
             <h4>One time</h4>
             <div class="editor-label">
                 Date
@@ -58,7 +58,7 @@
             </div>
         </div>
 
-        <div id="Daily" class="section" hidden>
+        <div id="Daily" class="section">
             <h4>Daily</h4>
             <div class="editor-label">
                 Recurs every:
@@ -74,7 +74,7 @@
             </div>
         </div>
 
-        <div id="Weekly" class="section" hidden>
+        <div id="Weekly" class="section">
             <h4>Weekly</h4>
             <div class="editor-label">
                 Recurs every:
@@ -103,7 +103,7 @@
             </div>
         </div>
 
-        <div id="Monthly" class="section" hidden>
+        <div id="Monthly" class="section">
             <h4>Monthly</h4>
             <div class="editor-label">
                 Day
@@ -126,7 +126,7 @@
             </div>
         </div>
 
-        <div id="MonthlyRelative" class="section" hidden>
+        <div id="MonthlyRelative" class="section">
             <h4>Monthly from</h4>
             <div class="editor-label">
                 The
@@ -156,21 +156,21 @@
             </div>
         </div>
 
-        <div id="DailyFrequency" class="section" hidden>
+        <div id="DailyFrequency" class="section">
             <h4>Daily frequency</h4>
             <div class="editor-field">
                 Occurs once: @Html.CheckBoxFor(m => m.DailyFreqOccursOnce, new { @id = "occursonce" })
             </div>
-            <div id="dailyfreqoccursonce" hidden>
+            <div id="dailyfreqoccursonce">
                 <div class="editor-label">
                     Occurs once at:
                 </div>
                 <div class="editor-field">
-                    @Html.EditorFor(m => m.DailyFreqStartingTime, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(m => m.DailyFreqStartingTime, "", new { @class = "text-danger" })
+                    @Html.EditorFor(m => m.DailyFreqOccursOnceTime, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => m.DailyFreqOccursOnceTime, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div id="dailyfreqoccursevery" hidden>
+            <div id="dailyfreqoccursevery">
                 <div class="editor-label">
                     Occurs every
                 </div>
@@ -203,7 +203,7 @@
             </div>
         </div>
 
-        <div id="Duration" class="section" hidden>
+        <div id="Duration" class="section">
             <h4>Duration</h4>
             <div class="editor-label">
                 Start Date
@@ -219,7 +219,7 @@
                 No end date: @Html.CheckBoxFor(m => m.DurationNoEndDate, new { @id = "durationnoenddate" })
             </div>
             <br />
-            <div id="durationenddate" hidden>
+            <div id="durationenddate">
                 <div class="editor-field">
                     @Html.EditorFor(m => m.DurationEndDate, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(m => m.DurationEndDate, "", new { @class = "text-danger" })

@@ -360,12 +360,18 @@ namespace JobManager.Helpers
             }
 
             if (jobschedule.ActiveEndTimeOfDay.Hours == 23 && jobschedule.ActiveEndTimeOfDay.Minutes == 59 && jobschedule.ActiveEndTimeOfDay.Seconds == 59)
+            {
                 schedule.DailyFreqOccursOnce = true;
-            schedule.DailyFreqOccursOnceTime = jobschedule.ActiveStartTimeOfDay;
-            schedule.DailyFreqOccursEvery = jobschedule.FrequencySubDayInterval;
-            schedule.DailyFreqSubDay = jobschedule.FrequencySubDayTypes.ToString();
-            schedule.DailyFreqStartingTime = jobschedule.ActiveStartTimeOfDay;
-            schedule.DailyFreqEndingTime = jobschedule.ActiveEndTimeOfDay;
+                schedule.DailyFreqOccursOnceTime = jobschedule.ActiveStartTimeOfDay;
+            }
+            else
+            {
+                schedule.DailyFreqOccursOnce = false;
+                schedule.DailyFreqOccursEvery = jobschedule.FrequencySubDayInterval;
+                schedule.DailyFreqSubDay = jobschedule.FrequencySubDayTypes.ToString();
+                schedule.DailyFreqStartingTime = jobschedule.ActiveStartTimeOfDay;
+                schedule.DailyFreqEndingTime = jobschedule.ActiveEndTimeOfDay;
+            }
             schedule.DurationStartDate = jobschedule.ActiveStartDate;
             schedule.DurationEndDate = jobschedule.ActiveEndDate;
             if (jobschedule.ActiveEndDate == DateTime.MaxValue.Date)
@@ -536,7 +542,7 @@ namespace JobManager.Helpers
 
         private ScheduleDetailsModel setDefaults (ScheduleDetailsModel schedule)
         {
-            schedule.OneTimeStartDate = DateTime.MinValue;
+            schedule.OneTimeStartDate = DateTime.Now.Date;
             schedule.OneTimeStartTimeOfDay = TimeSpan.MinValue;
             schedule.DailyRecursEvery = 1;
             schedule.WeeklyRecursEvery = 1;
