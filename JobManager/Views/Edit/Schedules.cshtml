@@ -56,6 +56,13 @@
 }).WithPaging(25)
 </div>
 
+<div id="dialog-confirm" style="display: none">
+    <p>
+        <span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>
+        Are you sure ?
+    </p>
+</div>
+
 @helper RenderEnabled(JobScheduleListModel schdule)
     {
 if (schdule.Enabled)
@@ -86,6 +93,6 @@ else
             jobID = ViewBag.JobID,
             scheduleUID = schedule.ScheduleUID
         },
-        new { @class = "btn btn-danger" });
+        new {@class = "btn btn-success", @OnClick = "return confirm('Are you sure you to delete this schedule?');" });
 }
 

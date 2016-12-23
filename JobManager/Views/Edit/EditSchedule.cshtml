@@ -13,10 +13,10 @@
 }
 
 
-@using (Html.BeginForm("EditSchedule", "Edit", FormMethod.Post, new { @id = "editForm"}))
+@using (Html.BeginForm("EditSchedule", "Edit", FormMethod.Post, new { @id = "editForm" }))
 {
     <fieldset>
-        <div class="section">
+        <div id = "header" class="section">
             <h3>Schedule</h3>
             <div class="editor-label">
                 Name
@@ -40,7 +40,7 @@
             </div>
         </div>
 
-        <div id="OneTime" class="section">
+        <div id= "OneTime" class="section">
             <h4>One time</h4>
             <div class="editor-label">
                 Date
@@ -66,11 +66,13 @@
             <div class="editor-field">
                 <table>
                     <tr>
-                        <td>@Html.EditorFor(m => m.DailyRecursEvery, new { htmlAttributes = new { @class = "form-control" } })</td>
+                        <td>
+                            @Html.EditorFor(m => m.DailyRecursEvery, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => m.DailyRecursEvery, "", new { @class = "text-danger" })
+                        </td>
                         <td>day(s)</td>
                     </tr>
                 </table>
-                @Html.ValidationMessageFor(m => m.DailyRecursEvery, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -82,11 +84,13 @@
             <div class="editor-field">
                 <table>
                     <tr>
-                        <td>@Html.EditorFor(m => m.WeeklyRecursEvery, new { htmlAttributes = new { @class = "form-control" } })</td>
+                        <td>
+                            @Html.EditorFor(m => m.WeeklyRecursEvery, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => m.WeeklyRecursEvery, "", new { @class = "text-danger" })
+                        </td>
                         <td>week(s) on</td>
                     </tr>
                 </table>
-                @Html.ValidationMessageFor(m => m.WeeklyRecursEvery, "", new { @class = "text-danger" })
             </div>
             <div class="editor-field">
                 <table style="padding:10px 10px, 10px, 10px; border-spacing:3px; width:100%">
@@ -118,11 +122,14 @@
             <div class="editor-field">
                 <table>
                     <tr>
-                        <td>@Html.EditorFor(m => m.MonthlyFrequency, new { htmlAttributes = new { @class = "form-control" } })</td>
+                        <td>
+                            @Html.EditorFor(m => m.MonthlyFrequency, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => m.MonthlyFrequency, "", new { @class = "text-danger" })
+                        </td>
                         <td>month(s)</td>
                     </tr>
                 </table>
-                @Html.ValidationMessageFor(m => m.MonthlyFrequency, "", new { @class = "text-danger" })
+
             </div>
         </div>
 
@@ -148,11 +155,13 @@
             <div class="editor-field">
                 <table>
                     <tr>
-                        <td>@Html.EditorFor(m => m.MonthlyRelativeFreq, new { htmlAttributes = new { @class = "form-control" } })</td>
+                        <td>
+                            @Html.EditorFor(m => m.MonthlyRelativeFreq, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => m.MonthlyRelativeFreq, "", new { @class = "text-danger" })
+                        </td>
                         <td>month(s)</td>
                     </tr>
                 </table>
-                @Html.ValidationMessageFor(m => m.MonthlyRelativeFreq, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -177,12 +186,14 @@
                 <div class="editor-field">
                     <table style="padding:20px 20px, 20px, 20px; border-spacing:5px;">
                         <tr>
-                            <td>@Html.EditorFor(m => m.DailyFreqOccursEvery, new { htmlAttributes = new { @class = "form-control" } })</td>
-                            <td>@Html.DropDownListFor(m => m.DailyFreqSubDay, (List<SelectListItem>)ViewBag.SubDayTypes, null, new { @class = "form-control" })</td>
-                        </tr>
-                        <tr>
-                            <td>@Html.ValidationMessageFor(m => m.DailyFreqOccursEvery, "", new { @class = "text-danger" })</td>
-                            <td>@Html.ValidationMessageFor(m => m.DailyFreqSubDay, "", new { @class = "text-danger" })</td>
+                            <td>
+                                @Html.EditorFor(m => m.DailyFreqOccursEvery, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(m => m.DailyFreqOccursEvery, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.DropDownListFor(m => m.DailyFreqSubDay, (List<SelectListItem>)ViewBag.SubDayTypes, null, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.DailyFreqSubDay, "", new { @class = "text-danger" })
+                            </td>
                         </tr>
                     </table>
                 </div>
@@ -227,13 +238,13 @@
             </div>
         </div>
 
-        <div hidden>
+        <div id="hidden" hidden>
             @Html.HiddenFor(m => m.ServerName)
             @Html.HiddenFor(m => m.JobID)
             @Html.HiddenFor(m => m.ScheduleUID)
         </div>
 
-        <div class="btn-block">
+        <div>
             <input id="btnSubmit" type="submit" value="Update Schedule" class="myButton" />
         </div>
     </fieldset>
@@ -252,7 +263,7 @@
             toggleScheduleType();
             toggleFreqType();
             toggleDurationEndDate();
-            
+
             // On change events
             $("#freqtype").change(function () { toggleScheduleType(); });
             $("#occursonce").change(function () { toggleFreqType(); });

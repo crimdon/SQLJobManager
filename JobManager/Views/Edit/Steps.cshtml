@@ -116,7 +116,7 @@ if (step.StepType == Microsoft.SqlServer.Management.Smo.Agent.AgentSubSystem.Tra
             jobID = ViewBag.JobID,
             stepID = step.StepNo
         },
-        new { @class = "btn btn-danger" });
+        new { @class = "btn btn-danger", @OnClick = "return confirm('Are you sure you to delete this step?');" });
 }
 else
 {<text></text>}
