@@ -246,14 +246,12 @@
 
         <div>
             <input id="btnSubmit" type="submit" value="Update Schedule" class="myButton" />
+            @Html.ValidationMessageFor(m => m, "", new { @class = "text-danger" })
         </div>
     </fieldset>
 }
 
-@if (TempData["message"] != null)
-{
-    <p>@Html.Encode(TempData["message"])</p>
-}
+
 
 @section Scripts {
     <script>

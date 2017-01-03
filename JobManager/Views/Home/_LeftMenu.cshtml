@@ -4,15 +4,18 @@
     ViewBag.Title = "Server Menu";
 }
 
-<h3>
-    Servers:
-</h3>
 
-<br />
+<div class="container">
+    <button type="button" class="btn btn-info btn-lg" data-toggle="collapse" data-target="#serverlist">Servers</button>
 
-<ul class="nav nav-tabs nav-stacked">
-    @foreach (var item in Model)
-    {
-            <li>@Html.ActionLink(item.ServerName, "Summary", "Home", new { dbServer = item.ServerName }, null)</li>
-    }
-</ul>
+    <br />
+
+    <div id="serverlist" class="collapse">
+        <ul class="nav nav-pills nav-stacked" role="tablist">
+            @foreach (var item in Model)
+            {
+                <li class="h3">@Html.ActionLink(item.ServerName, "Summary", "Home", new { dbServer = item.ServerName }, null)</li>
+            }
+        </ul>
+    </div>
+</div>
