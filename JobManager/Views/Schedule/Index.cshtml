@@ -108,7 +108,7 @@ else
 {
 if (jobs.Runable && jobs.Status == "Idle")
 {
-    @Html.ActionLink("Start Job", "StartJob", "",
+    @Html.ActionLink("Start Job", "StartJob", "Schedule",
         new
         {
             dbServer = jobs.ServerName,

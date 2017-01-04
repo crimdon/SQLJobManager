@@ -19,6 +19,7 @@ namespace JobManager.Models
         public DateTime LastModified { get; set; }
         public DateTime LastExecuted { get; set; }
         public string ServerName { get; set; }
+        public string StepName { get; set; }
 
     }
 }

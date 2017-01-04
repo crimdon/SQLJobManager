@@ -19,14 +19,36 @@ namespace JobManager.Controllers
             return View(joblist);
         }
 
+        [HttpGet]
         public ActionResult StartJob (string dbServer, Guid jobID)
         {
+            JobDetailsModel model = new JobDetailsModel();
+            PopulateDropDowns dropdown = new PopulateDropDowns();
             ConnectSqlServer connection = new ConnectSqlServer();
             Server server = connection.Connect(dbServer);
+            List<SelectListItem> stepList = new List<SelectListItem>();
 
-            server.JobServer.GetJobByID(jobID).Start();
+            stepList = dropdown.getSteps(dbServer, jobID);
+            ViewBag.StepList = stepList;
+
+            var job = server.JobServer.GetJobByID(jobID);
+            model.JobName = job.Name;
+            model.ServerName = dbServer;
+            model.JobID = jobID;
+            model.StepName = job.JobSteps[0].Name;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult StartJob (JobDetailsModel step)
+        {
+            ConnectSqlServer connection = new ConnectSqlServer();
+            Server server = connection.Connect(step.ServerName);
+
+            server.JobServer.GetJobByID(step.JobID).Start(step.StepName);
             server.ConnectionContext.Disconnect();
-            return RedirectToAction("Index", "Schedule", new { dbServer = dbServer });
+            return RedirectToAction("Index", "Schedule", new { dbServer = step.ServerName });
         }
 
         public PartialViewResult _LeftMenu()

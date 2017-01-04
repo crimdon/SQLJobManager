@@ -43,6 +43,22 @@ namespace JobManager.Helpers
             return proxies;
         }
 
+        public List<SelectListItem> getSteps (string ServerName, Guid JobID)
+        {
+            List<SelectListItem> steps = new List<SelectListItem>();
+            ConnectSqlServer connection = new ConnectSqlServer();
+            Server dbServer = connection.Connect(ServerName);
+
+            Job job = dbServer.JobServer.GetJobByID(JobID);
+
+            foreach (JobStep step in job.JobSteps)
+            {
+                    steps.Add(new SelectListItem { Text = step.Name, Value = step.Name });
+            }
+
+            return steps;
+        }
+
         public List<SelectListItem> getActions (string ServerName, Guid JobID, int JobStep)
         {
             List<SelectListItem> actions = new List<SelectListItem>();
