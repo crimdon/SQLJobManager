@@ -170,6 +170,11 @@ namespace JobManager.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult _ListActivity()
+        {
+            return PartialView(db.Activity.ToList());
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

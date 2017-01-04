@@ -40,6 +40,9 @@ namespace JobManager.Controllers
                 jobDetails.saveGeneral(jobDetail);
                 TempData["message"] = "Job successfuly updated";
 
+                LogActivity log = new LogActivity();
+                log.Add(User.Identity.Name, jobDetail.ServerName, jobDetail.JobID, "Edit Job");
+
                 return RedirectToAction("General", "Edit", new { dbServer = jobDetail.ServerName, jobID = jobDetail.JobID });
             }
             else
@@ -65,6 +68,10 @@ namespace JobManager.Controllers
         {
             JobSteps jobSteps = new JobSteps();
             jobSteps.deleteStep(dbServer, jobID, stepID);
+
+            LogActivity log = new LogActivity();
+            log.Add(User.Identity.Name, dbServer, jobID, "Delete Step");
+
             return RedirectToAction("Steps", "Edit", new { dbServer = dbServer, jobID = jobID });
         }
 
@@ -103,6 +110,10 @@ namespace JobManager.Controllers
 
                 ViewBag.ServerName = step.ServerName;
                 ViewBag.JobID = step.JobID;
+
+                LogActivity log = new LogActivity();
+                log.Add(User.Identity.Name, step.ServerName, step.JobID, "Edit Step");
+
                 return RedirectToAction("Steps", "Edit", new { dbServer = step.ServerName, jobID = step.JobID });
             }
             else
@@ -144,6 +155,10 @@ namespace JobManager.Controllers
             jobschedules.deleteSchedule(dbServer, jobID, scheduleUID);
             ViewBag.ServerName = dbServer;
             ViewBag.JobID = jobID;
+
+            LogActivity log = new LogActivity();
+            log.Add(User.Identity.Name, dbServer, jobID, "Delete Schedule");
+
             return RedirectToAction("Schedules", "Edit", new { dbServer = dbServer, jobID = jobID });
         }
 
@@ -188,6 +203,10 @@ namespace JobManager.Controllers
 
                 ViewBag.ServerName = schedule.ServerName;
                 ViewBag.JobID = schedule.JobID;
+
+                LogActivity log = new LogActivity();
+                log.Add(User.Identity.Name, schedule.ServerName, schedule.JobID, "Edit Schedule");
+
                 return RedirectToAction("Schedules", "Edit", new { dbServer = ViewBag.ServerName, jobID = ViewBag.JobID });
             }
             else

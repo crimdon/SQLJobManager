@@ -185,7 +185,9 @@
     <Compile Include="Helpers\JobList.cs" />
     <Compile Include="Helpers\JobSchedules.cs" />
     <Compile Include="Helpers\JobSteps.cs" />
+    <Compile Include="Helpers\LogActivity.cs" />
     <Compile Include="Helpers\PopulateDropDowns.cs" />
+    <Compile Include="Models\ActivityLog.cs" />
     <Compile Include="Models\JobDetailsModel.cs" />
     <Compile Include="Models\JobScheduleListModel.cs" />
     <Compile Include="Models\JobScheduleModel.cs" />
@@ -207,7 +209,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Grid.mvc.readme" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\gridmvc.js" />
@@ -233,6 +234,7 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="Properties\PublishProfiles\SQLTools.pubxml" />
     <Content Include="Views\Schedule\StartJob.cshtml" />
+    <Content Include="Views\Configuration\_ListActivity.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
@@ -302,7 +304,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <None Include="Project_Readme.html" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

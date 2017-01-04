@@ -48,6 +48,10 @@ namespace JobManager.Controllers
 
             server.JobServer.GetJobByID(step.JobID).Start(step.StepName);
             server.ConnectionContext.Disconnect();
+
+            LogActivity log = new LogActivity();
+            log.Add(User.Identity.Name, step.ServerName, step.JobID, "Start Job");
+
             return RedirectToAction("Index", "Schedule", new { dbServer = step.ServerName });
         }
 
