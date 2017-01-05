@@ -6,7 +6,7 @@ using System.Web;
 
 namespace JobManager.DAL
 {
-    public class ConfigInit : System.Data.Entity. DropCreateDatabaseIfModelChanges<ConfigContext>
+    public class ConfigInit : System.Data.Entity.DropCreateDatabaseIfModelChanges<ConfigContext>
     {
         protected override void Seed(ConfigContext context)
         {

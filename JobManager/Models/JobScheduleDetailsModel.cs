@@ -7,7 +7,7 @@ using System.Web;
 
 namespace JobManager.Models
 {
-    public class ScheduleDetailsModel : IValidatableObject
+    public class JobScheduleDetailsModel : IValidatableObject
     {
         // Applies to all Schedules
         [Required]

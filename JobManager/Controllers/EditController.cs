@@ -80,7 +80,7 @@ namespace JobManager.Controllers
         {
             JobSteps jobSteps = new JobSteps();
             PopulateDropDowns dropdown = new PopulateDropDowns();
-            StepDetailsModel step = new StepDetailsModel();
+            JobStepDetailsModel step = new JobStepDetailsModel();
             List<SelectListItem> databaseList = new List<SelectListItem>();
             List<SelectListItem> proxyList = new List<SelectListItem>();
             List<SelectListItem> actionList = new List<SelectListItem>();
@@ -101,7 +101,7 @@ namespace JobManager.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditStep(StepDetailsModel step)
+        public ActionResult EditStep(JobStepDetailsModel step)
         {
             if (ModelState.IsValid)
             {
@@ -167,7 +167,7 @@ namespace JobManager.Controllers
         {
             JobSchedules jobschedules = new JobSchedules();
             PopulateDropDowns dropdown = new PopulateDropDowns();
-            ScheduleDetailsModel schedule = new ScheduleDetailsModel();
+            JobScheduleDetailsModel schedule = new JobScheduleDetailsModel();
             List<SelectListItem> frequencyTypes = new List<SelectListItem>();
             List<SelectListItem> subdayTypes = new List<SelectListItem>();
             List<SelectListItem> freqRelativeIntervals = new List<SelectListItem>();
@@ -194,7 +194,7 @@ namespace JobManager.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditSchedule(ScheduleDetailsModel schedule)
+        public ActionResult EditSchedule(JobScheduleDetailsModel schedule)
         {
             if (ModelState.IsValid)
             {

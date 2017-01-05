@@ -34,6 +34,17 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PublishDatabaseSettings>
+      <Objects>
+        <ObjectGroup Name="ServerConfiguration-Deployment" Order="1">
+          <Destination Path="" />
+          <Object Type="DbFullSql">
+            <PreSource Path="Data Source=%28LocalDb%29\MSSQLLocalDB%3bInitial Catalog=JobManager%3bIntegrated Security=True%3bApplication Name=EntityFramework" ScriptSchema="True" ScriptData="False" CopyAllFullTextCatalogs="False" DriDefaults="True" />
+            <Source Path="obj\Debug\AutoScripts\ServerConfiguration-Deployment_SchemaOnly.sql" Transacted="True" />
+          </Object>
+        </ObjectGroup>
+      </Objects>
+    </PublishDatabaseSettings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -187,6 +198,7 @@
     <Compile Include="Helpers\JobSteps.cs" />
     <Compile Include="Helpers\LogActivity.cs" />
     <Compile Include="Helpers\PopulateDropDowns.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ActivityLog.cs" />
     <Compile Include="Models\JobDetailsModel.cs" />
     <Compile Include="Models\JobScheduleListModel.cs" />
@@ -194,9 +206,9 @@
     <Compile Include="Models\JobStepListModel.cs" />
     <Compile Include="Models\JobSummaryModel.cs" />
     <Compile Include="Models\EditableCategories.cs" />
-    <Compile Include="Models\ScheduleDetailsModel.cs" />
+    <Compile Include="Models\JobScheduleDetailsModel.cs" />
     <Compile Include="Models\ServerConfig.cs" />
-    <Compile Include="Models\StepDetailsModel.cs" />
+    <Compile Include="Models\JobStepDetailsModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

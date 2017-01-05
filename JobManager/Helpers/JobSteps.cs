@@ -44,9 +44,9 @@ namespace JobManager.Helpers
             job.JobSteps.Refresh();
         }
 
-        public StepDetailsModel getStepDetails(string serverName, Guid jobID, int stepID)
+        public JobStepDetailsModel getStepDetails(string serverName, Guid jobID, int stepID)
         {
-            StepDetailsModel step = new StepDetailsModel();
+            JobStepDetailsModel step = new JobStepDetailsModel();
             ConnectSqlServer connection = new ConnectSqlServer();
             Server dbServer = connection.Connect(serverName);
             Job job = dbServer.JobServer.GetJobByID(jobID);
@@ -93,7 +93,7 @@ namespace JobManager.Helpers
             return step;
         }
 
-        public void saveStepDetails(StepDetailsModel Step)
+        public void saveStepDetails(JobStepDetailsModel Step)
         {
             ConnectSqlServer connection = new ConnectSqlServer();
             Server dbServer = connection.Connect(Step.ServerName);

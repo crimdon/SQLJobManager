@@ -275,11 +275,11 @@ namespace JobManager.Helpers
             job.JobSchedules.Refresh();
         }
 
-        public ScheduleDetailsModel getScheduleDetails (string serverName, Guid jobID, Guid scheduleUID)
+        public JobScheduleDetailsModel getScheduleDetails (string serverName, Guid jobID, Guid scheduleUID)
         {
             ConnectSqlServer connection = new ConnectSqlServer();
             Server dbServer = connection.Connect(serverName);
-            ScheduleDetailsModel schedule = new ScheduleDetailsModel();
+            JobScheduleDetailsModel schedule = new JobScheduleDetailsModel();
             Job job = dbServer.JobServer.GetJobByID(jobID);
 
             var jobschedule = job.JobSchedules[scheduleUID];
@@ -380,7 +380,7 @@ namespace JobManager.Helpers
             return schedule;
         }
 
-        public void saveScheduleDetails(ScheduleDetailsModel schedule)
+        public void saveScheduleDetails(JobScheduleDetailsModel schedule)
         {
             ConnectSqlServer connection = new ConnectSqlServer();
             Server dbServer = connection.Connect(schedule.ServerName);
@@ -505,7 +505,7 @@ namespace JobManager.Helpers
             scheduleToUpdate.Refresh();
         }
 
-        private JobSchedule setCommon (JobSchedule scheduleToUpdate, ScheduleDetailsModel schedule)
+        private JobSchedule setCommon (JobSchedule scheduleToUpdate, JobScheduleDetailsModel schedule)
         {
             scheduleToUpdate.ActiveStartTimeOfDay = schedule.DailyFreqStartingTime;
             if (schedule.DailyFreqOccursOnce)
@@ -540,7 +540,7 @@ namespace JobManager.Helpers
             return scheduleToUpdate;
         }
 
-        private ScheduleDetailsModel setDefaults (ScheduleDetailsModel schedule)
+        private JobScheduleDetailsModel setDefaults (JobScheduleDetailsModel schedule)
         {
             schedule.OneTimeStartDate = DateTime.Now.Date;
             schedule.OneTimeStartTimeOfDay = TimeSpan.MinValue;

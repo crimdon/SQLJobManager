@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace JobManager.Models
 {
-    public class StepDetailsModel
+    public class JobStepDetailsModel
     {
         public string ServerName { get; set; }
         public Guid JobID { get; set; }
