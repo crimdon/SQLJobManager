@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "Job History";
+}
+
+@model IEnumerable<JobManager.Models.JobHistorySummary>
+
+
+<h2>Job History</h2>
+
+
+<div class="class=" table table-condensed" style="border: 1px; border-collapse:collapse;">
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Step</th>
+                <th>Step Name</th>
+                <th>Message</th>
+                <th>Duration</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int i = 0;}
+            @foreach (var item in Model)
+            {
+                <tr data-toggle="collapse" data-target=".stephistory_@i" style="background-color:cadetblue" >
+                    <td>@Html.DisplayFor(modelItem => item.ExecutionTime)</td>
+                    <td>@Html.DisplayFor(modelItem => item.StepID)</td>
+                    <td>@Html.DisplayFor(modelItem => item.StepName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Message)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Duration)</td>
+                </tr>
+                foreach (var step in item.JobHistories)
+                {
+                    <tr>
+                        <td class="hiddenRow">
+                            <div class="collapse stephistory_@i">@Html.DisplayFor(modelItem => step.ExecutionTime)</div>
+                        </td>
+                        <td class="hiddenRow">
+                            <div class="collapse stephistory_@i">@Html.DisplayFor(modelItem => step.StepID)</div>
+                        </td>
+                        <td class="hiddenRow">
+                            <div class="collapse stephistory_@i">@Html.DisplayFor(modelItem => step.StepName)</div>
+                        </td>
+                        <td class="hiddenRow">
+                            <div class="collapse stephistory_@i">@Html.DisplayFor(modelItem => step.Message)</div>
+                        </td>
+                        <td class="hiddenRow">
+                            <div class="collapse stephistory_@i">@Html.DisplayFor(modelItem => step.Duration)</div>
+                        </td>
+                    </tr>
+                }
+                i++;
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $('.collapse').on('show.bs.collapse', function () {
+        $('.collapse.in').collapse('hide');
+    });
+</script>

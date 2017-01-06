@@ -183,6 +183,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ConfigurationController.cs" />
     <Compile Include="Controllers\EditController.cs" />
+    <Compile Include="Controllers\HistoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobsController.cs" />
     <Compile Include="Controllers\ScheduleController.cs" />
@@ -193,6 +194,7 @@
     </Compile>
     <Compile Include="Helpers\ConnectSqlServer.cs" />
     <Compile Include="Helpers\JobDetails.cs" />
+    <Compile Include="Helpers\JobHistory.cs" />
     <Compile Include="Helpers\JobList.cs" />
     <Compile Include="Helpers\JobSchedules.cs" />
     <Compile Include="Helpers\JobSteps.cs" />
@@ -201,6 +203,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ActivityLog.cs" />
     <Compile Include="Models\JobDetailsModel.cs" />
+    <Compile Include="Models\JobHistoryModel.cs" />
     <Compile Include="Models\JobScheduleListModel.cs" />
     <Compile Include="Models\JobScheduleModel.cs" />
     <Compile Include="Models\JobStepListModel.cs" />
@@ -247,6 +250,7 @@
     <None Include="Properties\PublishProfiles\SQLTools.pubxml" />
     <Content Include="Views\Schedule\StartJob.cshtml" />
     <Content Include="Views\Configuration\_ListActivity.cshtml" />
+    <Content Include="Views\History\Index.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

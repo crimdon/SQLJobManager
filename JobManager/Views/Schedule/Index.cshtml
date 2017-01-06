@@ -30,6 +30,11 @@
     .Sanitized(false)
     .SetWidth(30)
     .RenderValueAs(JobSummaryModel => RenderStartButton(JobSummaryModel));
+    columns.Add()
+    .Encoded(false)
+    .Sanitized(false)
+    .SetWidth(30)
+    .RenderValueAs(JobSummaryModel => RenderHistoryButton(JobSummaryModel));
     columns.Add(JobSummaryModel => JobSummaryModel.ServerName)
     .Titled("Server Name")
     .Sortable(true)
@@ -118,4 +123,15 @@ if (jobs.Runable && jobs.Status == "Idle")
 }
 else
 {<text></text>}
+}
+
+@helper RenderHistoryButton(JobSummaryModel jobs)
+{
+    @Html.ActionLink("History", "Index", "History",
+        new
+        {
+            dbServer = jobs.ServerName,
+            jobID = jobs.JobID
+        },
+        new { @class = "btn btn-info" });
 }
