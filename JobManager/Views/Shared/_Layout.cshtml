@@ -27,7 +27,13 @@
                     <li>@Html.ActionLink("Summary", "Summary", "Home")</li>
                     <li>@Html.ActionLink("Schedule", "Index", "Schedule")</li>
                     <li>@Html.ActionLink("Jobs", "Index", "Jobs")</li>
-                    <li class="hidden">@Html.ActionLink("Configuration", "Index", "Configuration")</li>
+
+                    @{
+                        if (User.IsInRole("DBA"))
+                            {
+                        <li>@Html.ActionLink("Configuration", "Index", "Configuration")</li>
+                            }
+                        }
                 </ul>
                 <p class="nav navbar-text navbar-right">Hello, @User.Identity.Name!</p>
             </div>
