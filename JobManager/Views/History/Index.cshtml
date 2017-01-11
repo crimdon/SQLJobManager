@@ -9,10 +9,11 @@
 <h2>Job History</h2>
 
 
-<div class="class=" table table-condensed" style="border: 1px; border-collapse:collapse;">
+<div class="table table-condensed" style="border: 1px; border-collapse:collapse;">
     <table>
         <thead>
             <tr>
+                <th></th>
                 <th>Date</th>
                 <th>Step</th>
                 <th>Step Name</th>
@@ -24,7 +25,8 @@
             @{ int i = 0;}
             @foreach (var item in Model)
             {
-                <tr data-toggle="collapse" data-target=".stephistory_@i" style="background-color:cadetblue" >
+                <tr data-toggle="collapse" data-target=".stephistory_@i" style="background-color:cadetblue" class="accordion-toggle collapsed">
+                    <td class="glyphicon glyphicon-plus" id="icon_@i"></td>
                     <td>@Html.DisplayFor(modelItem => item.ExecutionTime)</td>
                     <td>@Html.DisplayFor(modelItem => item.StepID)</td>
                     <td>@Html.DisplayFor(modelItem => item.StepName)</td>
@@ -34,20 +36,21 @@
                 foreach (var step in item.JobHistories)
                 {
                     <tr>
+                        <td></td>
                         <td class="hiddenRow">
-                            <div class="collapse stephistory_@i">@Html.DisplayFor(modelItem => step.ExecutionTime)</div>
+                            <div data-targetid="@i" class="collapse stephistory_@i">@Html.DisplayFor(modelItem => step.ExecutionTime)</div>
                         </td>
                         <td class="hiddenRow">
-                            <div class="collapse stephistory_@i">@Html.DisplayFor(modelItem => step.StepID)</div>
+                            <div data-targetid="@i" class="collapse stephistory_@i">@Html.DisplayFor(modelItem => step.StepID)</div>
                         </td>
                         <td class="hiddenRow">
-                            <div class="collapse stephistory_@i">@Html.DisplayFor(modelItem => step.StepName)</div>
+                            <div data-targetid="@i" class="collapse stephistory_@i">@Html.DisplayFor(modelItem => step.StepName)</div>
                         </td>
                         <td class="hiddenRow">
-                            <div class="collapse stephistory_@i">@Html.DisplayFor(modelItem => step.Message)</div>
+                            <div data-targetid="@i" class="collapse stephistory_@i">@Html.DisplayFor(modelItem => step.Message)</div>
                         </td>
                         <td class="hiddenRow">
-                            <div class="collapse stephistory_@i">@Html.DisplayFor(modelItem => step.Duration)</div>
+                            <div data-targetid="@i" class="collapse stephistory_@i">@Html.DisplayFor(modelItem => step.Duration)</div>
                         </td>
                     </tr>
                 }
@@ -57,8 +60,18 @@
     </table>
 </div>
 
+@section Scripts {
 <script>
-    $('.collapse').on('show.bs.collapse', function () {
-        $('.collapse.in').collapse('hide');
+    $(document).ready(function (e) {
+        $(document).on('show.bs.collapse', '.collapse', function () {
+            $('.collapse.in').collapse('hide');
+            $('#' + event.target.id).addClass('glyphicon-minus').removeClass('glyphicon-plus');
+        });
+
+        $(document).on('hide.bs.collapse', '.collapse', function () {
+            var targetId = $(this).data("targetid");
+            $("#icon_" + targetId).addClass('glyphicon-plus').removeClass('glyphicon-minus');
+        });
     });
 </script>
+}

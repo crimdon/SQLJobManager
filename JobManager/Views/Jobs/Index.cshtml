@@ -35,6 +35,11 @@
     .Sortable(true)
     .SortInitialDirection(GridSortDirection.Ascending)
     .Filterable(false);
+    columns.Add(JobSummaryModel => JobSummaryModel.Owner)
+    .Titled("Owner")
+    .Sortable(true)
+    .SortInitialDirection(GridSortDirection.Ascending)
+    .Filterable(false);
     columns.Add(JobSummaryModel => JobSummaryModel.Enabled)
     .Titled("Enabled")
     .Filterable(false)
