@@ -53,7 +53,7 @@ namespace JobManager.Helpers
                         Duration = TimeSpan.FromSeconds(double.Parse(row["RunDuration"].ToString())),
                         Message = row["Message"].ToString(),
                         StepName = row["StepName"].ToString(),
-                        JobHistories = stepHistory.ToList()
+                        JobHistories = stepHistory.OrderByDescending(i => i.StepID).ToList()
                     });
                     stepHistory.Clear();
                 }

@@ -127,7 +127,7 @@ else
 
 @helper RenderHistoryButton(JobSummaryModel jobs)
 {
-    @Html.ActionLink("History", "Index", "History",
+    @Html.ActionLink("History", "Index", "History", 
         new
         {
             dbServer = jobs.ServerName,
