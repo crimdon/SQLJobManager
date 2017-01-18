@@ -7,7 +7,6 @@
     <title>@ViewBag.Title - SQL Job Manager</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    @Styles.Render("~/Content/themes/base/css")
     @Scripts.Render("~/bundles/jquery")
     <script src="@Url.Content("~/Scripts/gridmvc.min.js")"></script>
 </head>
@@ -31,7 +30,7 @@
                     @{
                         if (User.IsInRole("DBA"))
                             {
-                        <li>@Html.ActionLink("Configuration", "Index", "Configuration")</li>
+                                <li>@Html.ActionLink("Configuration", "Index", "Configuration")</li>
                             }
                         }
                 </ul>
