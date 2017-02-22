@@ -507,7 +507,7 @@ namespace JobManager.Helpers
 
         private JobSchedule setCommon (JobSchedule scheduleToUpdate, JobScheduleDetailsModel schedule)
         {
-            scheduleToUpdate.ActiveStartTimeOfDay = schedule.DailyFreqStartingTime;
+            scheduleToUpdate.ActiveStartTimeOfDay = schedule.DailyFreqOccursOnceTime;
             if (schedule.DailyFreqOccursOnce)
             {
                 scheduleToUpdate.ActiveEndTimeOfDay = TimeSpan.ParseExact("23:59:59", "hh\\:mm\\:ss", CultureInfo.InvariantCulture);
@@ -530,7 +530,6 @@ namespace JobManager.Helpers
                         break;
                 }
             }
-            scheduleToUpdate.ActiveStartTimeOfDay = schedule.DailyFreqStartingTime;
             scheduleToUpdate.ActiveStartDate = schedule.DurationStartDate;
             if (schedule.DurationNoEndDate)
                 scheduleToUpdate.ActiveEndDate = DateTime.MaxValue;

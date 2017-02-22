@@ -86,7 +86,7 @@ namespace JobManager.Helpers
                     step.OnFailure = "QuitWithFailue";
                     break;
                 case StepCompletionAction.GoToStep:
-                    step.OnFailure = "GoToStep:" + jobstep.OnSuccessStep;
+                    step.OnFailure = "GoToStep:" + jobstep.OnFailStep;
                     break;
             }
 
@@ -140,7 +140,7 @@ namespace JobManager.Helpers
                     break;
                 default:
                     stepToUpdate.OnFailAction = StepCompletionAction.GoToStep;
-                    stepToUpdate.OnFailStep = int.Parse(Step.OnSuccess.Split(':')[1]);
+                    stepToUpdate.OnFailStep = int.Parse(Step.OnFailure.Split(':')[1]);
                     break;
             }
 
