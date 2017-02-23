@@ -3,6 +3,7 @@ using Microsoft.SqlServer.Management.Smo;
 using Microsoft.SqlServer.Management.Smo.Agent;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Web;
 
@@ -146,6 +147,34 @@ namespace JobManager.Helpers
 
             stepToUpdate.Alter();
             stepToUpdate.Refresh();
+        }
+
+        public void moveStepUp (string serverName, Guid jobID, int stepID)
+        {
+            ConnectSqlServer connection = new ConnectSqlServer();
+            Server dbServer = connection.Connect(serverName);
+            Job job = dbServer.JobServer.GetJobByID(jobID);
+
+            JobStep newJobStep = job.JobSteps[stepID - 1];
+            StringCollection script = newJobStep.Script();
+            script[0] = script[0].Replace("@step_id=" + stepID, "@step_id=" + (stepID -1));
+            job.JobSteps[stepID - 1].Drop();
+            dbServer.Refresh();
+            dbServer.ConnectionContext.ExecuteNonQuery(script);
+        }
+
+        public void moveStepDown(string serverName, Guid jobID, int stepID)
+        {
+            ConnectSqlServer connection = new ConnectSqlServer();
+            Server dbServer = connection.Connect(serverName);
+            Job job = dbServer.JobServer.GetJobByID(jobID);
+
+            JobStep newJobStep = job.JobSteps[stepID - 1];
+            StringCollection script = newJobStep.Script();
+            script[0] = script[0].Replace("@step_id=" + stepID, "@step_id=" + (stepID + 1));
+            job.JobSteps[stepID - 1].Drop();
+            dbServer.Refresh();
+            dbServer.ConnectionContext.ExecuteNonQuery(script);
         }
     }
 }

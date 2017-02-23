@@ -138,6 +138,28 @@ namespace JobManager.Controllers
             }
         }
 
+        public ActionResult MoveStepUp(string dbServer, Guid jobID, int stepID)
+        {
+            JobSteps jobSteps = new JobSteps();
+            jobSteps.moveStepUp(dbServer, jobID, stepID);
+
+            LogActivity log = new LogActivity();
+            log.Add(User.Identity.Name, dbServer, jobID, "Re-order Step");
+
+            return RedirectToAction("Steps", "Edit", new { dbServer = dbServer, jobID = jobID });
+        }
+
+        public ActionResult MoveStepDown(string dbServer, Guid jobID, int stepID)
+        {
+            JobSteps jobSteps = new JobSteps();
+            jobSteps.moveStepDown(dbServer, jobID, stepID);
+
+            LogActivity log = new LogActivity();
+            log.Add(User.Identity.Name, dbServer, jobID, "Re-order Step");
+
+            return RedirectToAction("Steps", "Edit", new { dbServer = dbServer, jobID = jobID });
+        }
+
         public ActionResult Schedules(string dbServer, Guid jobID)
         {
             List<JobScheduleListModel> schedules = new List<JobScheduleListModel>();

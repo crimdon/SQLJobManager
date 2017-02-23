@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using JobManager.Models;
 using Microsoft.SqlServer.Management.Smo;
 using Microsoft.SqlServer.Management.Smo.Agent;
@@ -28,6 +25,9 @@ namespace JobManager.Helpers
             jobDetails.LastExecuted = job.LastRunDate;
             jobDetails.LastModified = job.DateLastModified;
             jobDetails.ServerName = ServerName;
+            jobDetails.StartStepID = job.StartStepID;
+            jobDetails.StepCount = job.JobSteps.Count;
+
 
             return jobDetails;
         }
@@ -44,6 +44,7 @@ namespace JobManager.Helpers
             jobToUpdate.OwnerLoginName = job.Owner;
             jobToUpdate.Description = job.Description;
             jobToUpdate.IsEnabled = job.Enabled;
+            jobToUpdate.StartStepID = job.StartStepID;
             jobToUpdate.Alter();
         }
     }

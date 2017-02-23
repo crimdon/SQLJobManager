@@ -36,6 +36,16 @@
     .Sanitized(false)
     .SetWidth(30)
     .RenderValueAs(m => RenderDeleteButton(m));
+    columns.Add()
+    .Encoded(false)
+    .Sanitized(false)
+    .SetWidth(30)
+    .RenderValueAs(m => RenderUpButton(m));
+    columns.Add()
+    .Encoded(false)
+    .Sanitized(false)
+    .SetWidth(30)
+    .RenderValueAs(m => RenderDownButton(m));
     columns.Add(m => m.StepNo)
     .Titled("ID")
     .Sortable(true)
@@ -117,6 +127,41 @@ if (step.StepType == Microsoft.SqlServer.Management.Smo.Agent.AgentSubSystem.Tra
             stepID = step.StepNo
         },
         new { @class = "btn btn-danger", @OnClick = "return confirm('Are you sure you to delete this step?');" });
+}
+else
+{<text></text>}
+}
+
+@helper RenderUpButton(JobStepListModel step)
+{
+if (step.StepNo != 1)
+{
+        @Html.ActionLink(" ", "MoveStepUp", "Edit",
+        new
+        {
+            dbServer = ViewBag.ServerName,
+            jobID = ViewBag.JobID,
+            stepID = step.StepNo
+        },
+        new { @class = "glyphicon glyphicon-arrow-up" });
+}
+else
+{<text></text>}
+}
+
+@helper RenderDownButton(JobStepListModel step)
+{
+var last = Model.Last();
+if (step.StepNo != last.StepNo)
+{
+    @Html.ActionLink(" ", "MoveStepDown", "Edit",
+    new
+    {
+        dbServer = ViewBag.ServerName,
+        jobID = ViewBag.JobID,
+        stepID = step.StepNo
+    },
+    new { @class = "glyphicon glyphicon-arrow-down" });
 }
 else
 {<text></text>}
