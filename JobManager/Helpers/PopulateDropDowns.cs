@@ -66,8 +66,8 @@ namespace JobManager.Helpers
             Server dbServer = connection.Connect(ServerName);
 
             actions.Add(new SelectListItem { Text = "Go to the next step", Value = "GoToNextStep"  } );
-            actions.Add(new SelectListItem { Text = "Quit the job reporting success", Value = "QuitWithFailure" });
-            actions.Add(new SelectListItem { Text = "Quit the job reporting failure", Value = "QuitWithSuccess" });
+            actions.Add(new SelectListItem { Text = "Quit the job reporting success", Value = "QuitWithSuccess" });
+            actions.Add(new SelectListItem { Text = "Quit the job reporting failure", Value = "QuitWithFailure" });
 
             Job job = dbServer.JobServer.GetJobByID(JobID);
 

@@ -35,6 +35,22 @@ namespace JobManager.Helpers
             return steplist;
         }
 
+        public int addStep (string serverName, Guid jobID)
+        {
+            ConnectSqlServer connection = new ConnectSqlServer();
+            Server dbServer = connection.Connect(serverName);
+            Job job = dbServer.JobServer.GetJobByID(jobID);
+
+            JobStep step = new JobStep(job,"New Step");
+            step.SubSystem = AgentSubSystem.TransactSql;
+            step.OnSuccessAction = StepCompletionAction.QuitWithSuccess;
+            step.OnFailAction = StepCompletionAction.QuitWithFailure;
+            step.Create();
+            step.Refresh();
+            return step.ID;
+
+        }
+
         public void deleteStep(string serverName, Guid jobID, int stepID)
         {
             ConnectSqlServer connection = new ConnectSqlServer();
@@ -69,7 +85,7 @@ namespace JobManager.Helpers
                     step.OnSuccess = "QuitWithSuccess";
                     break;
                 case StepCompletionAction.QuitWithFailure:
-                    step.OnSuccess = "QuitWithFailue";
+                    step.OnSuccess = "QuitWithFailure";
                     break;
                 case StepCompletionAction.GoToStep:
                     step.OnSuccess = "GoToStep:" + jobstep.OnSuccessStep;
@@ -84,7 +100,7 @@ namespace JobManager.Helpers
                     step.OnFailure = "QuitWithSuccess";
                     break;
                 case StepCompletionAction.QuitWithFailure:
-                    step.OnFailure = "QuitWithFailue";
+                    step.OnFailure = "QuitWithFailure";
                     break;
                 case StepCompletionAction.GoToStep:
                     step.OnFailure = "GoToStep:" + jobstep.OnFailStep;
@@ -116,7 +132,7 @@ namespace JobManager.Helpers
                     stepToUpdate.OnSuccessAction = StepCompletionAction.QuitWithSuccess;
                     stepToUpdate.OnSuccessStep = 0;
                     break;
-                case "QuitWithFailue":
+                case "QuitWithFailure":
                     stepToUpdate.OnSuccessAction = StepCompletionAction.QuitWithFailure;
                     stepToUpdate.OnSuccessStep = 0;
                     break;
@@ -135,7 +151,7 @@ namespace JobManager.Helpers
                     stepToUpdate.OnFailAction = StepCompletionAction.QuitWithSuccess;
                     stepToUpdate.OnFailStep = 0;
                     break;
-                case "QuitWithFailue":
+                case "QuitWithFailure":
                     stepToUpdate.OnFailAction = StepCompletionAction.QuitWithFailure;
                     stepToUpdate.OnFailStep = 0;
                     break;
