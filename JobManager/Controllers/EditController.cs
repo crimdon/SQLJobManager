@@ -64,16 +64,6 @@ namespace JobManager.Controllers
             return View(steps);
         }
 
-        public ActionResult AddStep (string dbServer, Guid jobID)
-        {
-            JobSteps jobSteps = new JobSteps();
-            int stepID = jobSteps.addStep(dbServer, jobID);
-
-            LogActivity log = new LogActivity();
-            log.Add(User.Identity.Name, dbServer, jobID, "Add Step");
-
-            return RedirectToAction("EditStep", "Edit", new { dbServer = dbServer, jobID = jobID, stepID = stepID });
-        }
         public ActionResult DeleteStep (string dbServer, Guid jobID, int stepID)
         {
             JobSteps jobSteps = new JobSteps();

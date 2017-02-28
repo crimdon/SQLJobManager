@@ -72,17 +72,6 @@
 }).WithPaging(25)
 </div>
 
-<div>
-    @Html.ActionLink("Add Step", "AddStep", "Edit", 
-    new
-    {
-        dbServer = ViewBag.ServerName,
-        jobID = ViewBag.JobID
-    },
-    new { @class = "btn btn-warning" })
-</div>
-
-
 @helper RenderStepType(JobStepListModel step)
 {
         @step.StepType.ToString();
