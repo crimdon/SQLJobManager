@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.SqlServer.Management.Smo;
-using JobManager.Data;
+using JobManager.DAL;
+using JobManager.Models;
 
 namespace JobManager.Helpers
 {
@@ -9,10 +10,10 @@ namespace JobManager.Helpers
     {
         public Server Connect(string SqlServer)
         {
-            ConfigModel db = new ConfigModel();
+            ConfigContext db = new ConfigContext();
             try
             {
-                ServerConfig serverConfig = db.ServerConfigs.FirstOrDefault(m => m.ServerName == SqlServer);
+                ServerConfig serverConfig = db.ServerConfiguration.FirstOrDefault(m => m.ServerName == SqlServer);
                 if (serverConfig == null)
                 {
                     throw new Exception("Server not found in configuration");

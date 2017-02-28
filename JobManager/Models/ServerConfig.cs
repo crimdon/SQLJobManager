@@ -1,25 +1,22 @@
-namespace JobManager.Data
+namespace JobManager.Models
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
+    using System.Data.Entity;
+    using System.Linq;
 
-    [Table("ServerConfig")]
-    public partial class ServerConfig
+    public class ServerConfig
     {
+        [Key]
         public int Id { get; set; }
-
         [Required]
         public string ServerName { get; set; }
-
-        public AuthenticationType AuthenticationType { get; set; }
-
+        [Required]
+        public AuthenticationType? AuthenticationType { get; set; }
         [Required]
         public string UserName { get; set; }
-
         [Required]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
     }
 

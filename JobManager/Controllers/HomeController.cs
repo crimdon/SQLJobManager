@@ -4,7 +4,7 @@ using System.Web.Mvc;
 using JobManager.Helpers;
 using JobManager.Models;
 using System.Linq;
-using JobManager.Data;
+using JobManager.DAL;
 
 namespace JobManager.Controllers
 {
@@ -55,8 +55,8 @@ namespace JobManager.Controllers
 
         public PartialViewResult _LeftMenu()
         {
-            ConfigModel db = new ConfigModel();
-            return PartialView(db.ServerConfigs.ToList());
+            ConfigContext db = new ConfigContext();
+            return PartialView(db.ServerConfiguration.ToList());
         }
         public ActionResult Error()
         {
