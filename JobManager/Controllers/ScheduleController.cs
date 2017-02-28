@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using JobManager.Helpers;
 using JobManager.Models;
-using JobManager.DAL;
+using JobManager.Data;
 using System.Linq;
 
 namespace JobManager.Controllers
@@ -57,8 +57,8 @@ namespace JobManager.Controllers
 
         public PartialViewResult _LeftMenu()
         {
-            ConfigContext db = new ConfigContext();
-            return PartialView(db.ServerConfiguration.ToList());
+            ConfigModel db = new ConfigModel();
+            return PartialView(db.ServerConfigs.ToList());
         }
 
         protected override void OnException(ExceptionContext filterContext)

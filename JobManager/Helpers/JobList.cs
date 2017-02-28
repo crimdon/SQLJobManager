@@ -5,7 +5,7 @@ using System.Data;
 using System.Globalization;
 using JobManager.Models;
 using System.Linq;
-using JobManager.DAL;
+using JobManager.Data;
 
 namespace JobManager.Helpers
 {
@@ -19,11 +19,11 @@ namespace JobManager.Helpers
         private bool editable;
         public List<JobSummaryModel> getJobs(string selectedServer = null)
         {
-            ConfigContext db = new ConfigContext();
+            ConfigModel db = new ConfigModel();
             List<ServerConfig> servers = new List<ServerConfig>();
-            servers = db.ServerConfiguration.ToList();
+            servers = db.ServerConfigs.ToList();
 
-            List<EditableCategories> editableCategories = new List<EditableCategories>();
+            List<EditableCategory> editableCategories = new List<EditableCategory>();
             editableCategories = db.EditableCategories.ToList();
 
             List<JobSummaryModel> joblist = new List<JobSummaryModel>();
@@ -116,10 +116,10 @@ namespace JobManager.Helpers
 
                         editable = true;
                         string categoryName = row["category"].ToString();
-                        EditableCategories editableCategory = new EditableCategories();
+                        EditableCategory editableCategory = new EditableCategory();
                         editableCategory =  db.EditableCategories.FirstOrDefault(m =>  m.CategoryName == categoryName);
                         if (editableCategory == null)
-                            editableCategory = new EditableCategories() { CategoryName = "Unknown", Editable = true };
+                            editableCategory = new EditableCategory() { CategoryName = "Unknown", Editable = true };
                         if (!editableCategory.Editable)
                             editable = false;
 

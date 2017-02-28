@@ -1,4 +1,4 @@
-﻿using JobManager.DAL;
+﻿using JobManager.Data;
 using JobManager.Models;
 using Microsoft.SqlServer.Management.Smo;
 using System;
@@ -12,13 +12,13 @@ namespace JobManager.Helpers
     {
         public void Add(string UserName, string ServerName, Guid JobID, string Action)
         {
-            ConfigContext db = new ConfigContext();
+            ConfigModel db = new ConfigModel();
             ConnectSqlServer connection = new ConnectSqlServer();
             Server dbServer = connection.Connect(ServerName);
 
             string JobName = dbServer.JobServer.GetJobByID(JobID).Name;
 
-            db.Activity.Add(new ActivityLog { DateTime = DateTime.Now, UserName = UserName, ServerName = ServerName, JobName = JobName, Action = Action });
+            db.ActivityLogs.Add(new ActivityLog { DateTime = DateTime.Now, UserName = UserName, ServerName = ServerName, JobName = JobName, Action = Action });
             db.SaveChanges();
         }
     }

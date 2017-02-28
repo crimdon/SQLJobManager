@@ -6,14 +6,13 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using JobManager.DAL;
-using JobManager.Models;
+using JobManager.Data;
 
 namespace JobManager.Controllers
 {
     public class ConfigurationController : Controller
     {
-        private ConfigContext db = new ConfigContext();
+        private ConfigModel db = new ConfigModel();
 
         public ActionResult Index()
         {
@@ -22,7 +21,7 @@ namespace JobManager.Controllers
 
         public ActionResult _ListServers()
         {
-            return PartialView(db.ServerConfiguration.ToList());
+            return PartialView(db.ServerConfigs.ToList());
         }
 
         public ActionResult CreateServer()
@@ -36,7 +35,7 @@ namespace JobManager.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.ServerConfiguration.Add(serverConfig);
+                db.ServerConfigs.Add(serverConfig);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -50,7 +49,7 @@ namespace JobManager.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ServerConfig serverConfig = db.ServerConfiguration.Find(id);
+            ServerConfig serverConfig = db.ServerConfigs.Find(id);
             if (serverConfig == null)
             {
                 return HttpNotFound();
@@ -77,7 +76,7 @@ namespace JobManager.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ServerConfig serverConfig = db.ServerConfiguration.Find(id);
+            ServerConfig serverConfig = db.ServerConfigs.Find(id);
             if (serverConfig == null)
             {
                 return HttpNotFound();
@@ -89,8 +88,8 @@ namespace JobManager.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteServerConfirmed(int id)
         {
-            ServerConfig serverConfig = db.ServerConfiguration.Find(id);
-            db.ServerConfiguration.Remove(serverConfig);
+            ServerConfig serverConfig = db.ServerConfigs.Find(id);
+            db.ServerConfigs.Remove(serverConfig);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -107,16 +106,16 @@ namespace JobManager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateCategory([Bind(Include = "Id,CategoryName,Editable")] EditableCategories editableCategories)
+        public ActionResult CreateCategory([Bind(Include = "Id,CategoryName,Editable")] EditableCategory EditableCategory)
         {
             if (ModelState.IsValid)
             {
-                db.EditableCategories.Add(editableCategories);
+                db.EditableCategories.Add(EditableCategory);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(editableCategories);
+            return View(EditableCategory);
         }
 
         public ActionResult EditCategory(int? id)
@@ -125,7 +124,7 @@ namespace JobManager.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EditableCategories editableCategories = db.EditableCategories.Find(id);
+            EditableCategory editableCategories = db.EditableCategories.Find(id);
             if (editableCategories == null)
             {
                 return HttpNotFound();
@@ -135,7 +134,7 @@ namespace JobManager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditCategory([Bind(Include = "Id,CategoryName,Editable")] EditableCategories editableCategories)
+        public ActionResult EditCategory([Bind(Include = "Id,CategoryName,Editable")] EditableCategory editableCategories)
         {
             if (ModelState.IsValid)
             {
@@ -152,7 +151,7 @@ namespace JobManager.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EditableCategories editableCategories = db.EditableCategories.Find(id);
+            EditableCategory editableCategories = db.EditableCategories.Find(id);
             if (editableCategories == null)
             {
                 return HttpNotFound();
@@ -164,7 +163,7 @@ namespace JobManager.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteCategoryConfirmed(int id)
         {
-            EditableCategories editableCategories = db.EditableCategories.Find(id);
+            EditableCategory editableCategories = db.EditableCategories.Find(id);
             db.EditableCategories.Remove(editableCategories);
             db.SaveChanges();
             return RedirectToAction("Index");
@@ -172,7 +171,7 @@ namespace JobManager.Controllers
 
         public ActionResult _ListActivity()
         {
-            return PartialView(db.Activity.ToList());
+            return PartialView(db.ActivityLogs.ToList());
         }
 
         protected override void Dispose(bool disposing)
